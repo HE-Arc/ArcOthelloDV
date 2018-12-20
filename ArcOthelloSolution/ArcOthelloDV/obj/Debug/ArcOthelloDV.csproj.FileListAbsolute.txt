@@ -1,0 +1,15 @@
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\bin\Debug\ArcOthelloDV.exe.config
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\bin\Debug\ArcOthelloDV.exe
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\bin\Debug\ArcOthelloDV.pdb
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.csprojAssemblyReference.cache
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\MainWindow.g.cs
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\App.g.cs
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV_MarkupCompile.cache
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV_MarkupCompile.lref
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\MainWindow.baml
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.g.resources
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.Properties.Resources.resources
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.csproj.GenerateResource.cache
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.csproj.CoreCompileInputs.cache
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.exe
+C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.pdb
