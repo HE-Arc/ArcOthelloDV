@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ArcOthelloDV"
         mc:Ignorable="d"
-        Title="ArcOthelloDV" Width="1000">
+        Title="ArcOthelloDV" Width="1000"
+        DataContext="{StaticResource MainViewModel}">
     <Grid Name="board" Margin="50">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
@@ -31,6 +32,15 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+        <TextBlock Grid.Row="8" Grid.Column="9" VerticalAlignment="Center" HorizontalAlignment="Center" Text="WHITE"/>
+        <TextBlock Grid.Row="9" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Clock : "/>
+        <TextBlock Grid.Row="9" Grid.Column="9" Text="{Binding TimeElapsedWhite}"/>
+
+        <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="BLACK"/>
+        <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Clock : "/>
+        <TextBlock Grid.Row="9" Grid.Column="1" Text="{Binding TimeElapsedBlack}"/>
     </Grid>
 </Window>
