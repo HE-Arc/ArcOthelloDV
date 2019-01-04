@@ -39,36 +39,44 @@ namespace ArcOthelloDV
 
             stopWatchWhite = new Stopwatch();
             stopWatchBlack = new Stopwatch();
-            stopWatchWhite.Start();
+            displayWhiteClock();
+            displayBlackClock();
 
+            stopWatchWhite.Start();
             timer.Start();
         }
 
+        private void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
 
         private void dispatcherTimerTick(object sender, EventArgs e)
         {
-            TimeSpan ts = stopWatchWhite.Elapsed;
-            TimeElapsedWhite = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
-            try {
-                PropertyChanged(this, new PropertyChangedEventArgs("TimeElapsedWhite"));
-            }
-            catch
+            if (stopWatchWhite.IsRunning)
             {
-
+                displayWhiteClock();
             }
-
-            ts = stopWatchBlack.Elapsed;
-            TimeElapsedBlack = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
-            try
+            else if (stopWatchBlack.IsRunning)
             {
-                PropertyChanged(this, new PropertyChangedEventArgs("TimeElapsedBlack"));
-            }
-            catch
-            {
-
+                displayBlackClock();
             }
         }
         
+        private void displayWhiteClock()
+        {
+            TimeSpan ts = stopWatchWhite.Elapsed;
+            TimeElapsedWhite = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+            OnPropertyChanged("TimeElapsedWhite");
+        }
+
+        private void displayBlackClock()
+        {
+            TimeSpan ts = stopWatchBlack.Elapsed;
+            TimeElapsedBlack = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+            OnPropertyChanged("TimeElapsedBlack");
+        }
+
         /// <summary>
         /// Initialises the board with empty values
         /// </summary>
