@@ -20,11 +20,16 @@ namespace ArcOthelloDV
     /// </summary>
     public partial class MainWindow : Window
     {
+
+        Ellipse[,] ellipses;
+
         public MainWindow()
         {
             InitializeComponent();
 
             OthelloBoard othelloBoard = new OthelloBoard();
+
+            ellipses = new Ellipse[9, 7];
 
             for (int i = 0 ; i < 9 ; i++)
             {
@@ -38,11 +43,24 @@ namespace ArcOthelloDV
                         Grid.SetRow(rect, i);
                         Grid.SetColumn(rect, j);
                         board.Children.Add(rect);
+                        
+                        Ellipse ellipse = new Ellipse();
+                        ellipse.Fill = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+                        ellipse.Margin = new Thickness(3);
+                        Grid.SetRow(ellipse, i);
+                        Grid.SetColumn(ellipse, j);
+                        board.Children.Add(ellipse);
+
+                        ellipses[j - 1, i - 1] = ellipse;
 
                         rect.MouseEnter += new MouseEventHandler(r_MouseEnter);
                         rect.MouseLeave += new MouseEventHandler(r_MouseLeave);
                         rect.MouseLeftButtonDown += new MouseButtonEventHandler(r_MouseClick);
-                        
+
+                        ellipse.MouseEnter += new MouseEventHandler(r_MouseEnter);
+                        ellipse.MouseLeave += new MouseEventHandler(r_MouseLeave);
+                        ellipse.MouseLeftButtonDown += new MouseButtonEventHandler(r_MouseClick);
+
                         void r_MouseClick(object sender, MouseEventArgs e)
                         {
                             var element = (UIElement)e.Source;
@@ -50,32 +68,42 @@ namespace ArcOthelloDV
                             int c = Grid.GetColumn(element);
                             int r = Grid.GetRow(element);
 
-                            othelloBoard.PlayMove(c - 1, r - 1, othelloBoard.getWhiteTurn());
-                            
-                            Ellipse ellipse = new Ellipse();
-                            if (othelloBoard.getWhiteTurn())
-                            {
-                                ellipse.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
-                            }
-                            else
-                            {
-                                ellipse.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                            }
+                            othelloBoard.PlayMove(c - 1, r - 1, othelloBoard.getWhiteTurn()); //Play on the board at this position
 
-                            Grid.SetRow(ellipse, r);
-                            Grid.SetColumn(ellipse, c);
-
-                            board.Children.Add(ellipse);
+                            updateBoardDisplay(othelloBoard.GetBoard());
                         }
 
                         void r_MouseLeave(object sender, MouseEventArgs e)
                         {
-                            rect.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                            var element = (UIElement)e.Source;
+
+                            int c = Grid.GetColumn(element) - 1;
+                            int r = Grid.GetRow(element) - 1;
+
+                            if (othelloBoard.isEmpty(c, r))
+                            {
+                                ellipse.Fill = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+                            }
                         }
 
                         void r_MouseEnter(object sender, MouseEventArgs e)
                         {
-                            rect.Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                            var element = (UIElement)e.Source;
+
+                            int c = Grid.GetColumn(element) - 1;
+                            int r = Grid.GetRow(element) - 1;
+                            
+                            if (othelloBoard.isEmpty(c,r) && othelloBoard.IsPlayable(c, r, othelloBoard.getWhiteTurn()))
+                            {
+                                if (othelloBoard.getWhiteTurn())
+                                {
+                                    ellipse.Fill = new SolidColorBrush(Color.FromArgb(128, 255, 255, 255));
+                                }
+                                else
+                                {
+                                    ellipse.Fill = new SolidColorBrush(Color.FromArgb(128, 0, 0, 0));
+                                }
+                            }
                         }
 
                     }
@@ -108,6 +136,28 @@ namespace ArcOthelloDV
                     }
                 }
             }
-        }   
+        }
+
+        private void updateBoardDisplay(int[,] board)
+        {
+            for (int x = 0; x < 9; x++)
+            {
+                for (int y = 0; y < 7; y++)
+                {
+                    if (board[x, y] == 0)
+                    {
+                        ellipses[x, y].Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                    }
+                    else if(board[x,y] == 1)
+                    {
+                        ellipses[x, y].Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                    }
+                    else
+                    {
+                        ellipses[x, y].Fill = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+                    }
+                }
+            }
+        }
     }
 }

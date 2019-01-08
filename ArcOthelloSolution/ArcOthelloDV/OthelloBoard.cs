@@ -36,6 +36,17 @@ namespace ArcOthelloDV
             return whiteTurn;
         }
 
+        /// <summary>
+        /// Check if the board is empty at this position
+        /// </summary>
+        /// <param name="column">the column</param>
+        /// <param name="line">the row</param>
+        /// <returns>true if the cell is empty</returns>        
+        public bool isEmpty(int column, int line)
+        {
+            return board[column, line] == EMPTY;
+        }
+
         private void startTimer()
         {
             timer = new DispatcherTimer();
