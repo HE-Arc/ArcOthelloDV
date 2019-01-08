@@ -31,6 +31,11 @@ namespace ArcOthelloDV
             startTimer();
         }
 
+        public bool getWhiteTurn()
+        {
+            return whiteTurn;
+        }
+
         private void startTimer()
         {
             timer = new DispatcherTimer();
@@ -192,7 +197,7 @@ namespace ArcOthelloDV
                     board[column, line] = BLACK;
                 }
 
-                whiteTurn = !whiteTurn;
+                nextPlayer();
 
                 return true;
             }

@@ -38,6 +38,46 @@ namespace ArcOthelloDV
                         Grid.SetRow(rect, i);
                         Grid.SetColumn(rect, j);
                         board.Children.Add(rect);
+
+                        rect.MouseEnter += new MouseEventHandler(r_MouseEnter);
+                        rect.MouseLeave += new MouseEventHandler(r_MouseLeave);
+                        rect.MouseLeftButtonDown += new MouseButtonEventHandler(r_MouseClick);
+                        
+                        void r_MouseClick(object sender, MouseEventArgs e)
+                        {
+                            var element = (UIElement)e.Source;
+
+                            int c = Grid.GetColumn(element);
+                            int r = Grid.GetRow(element);
+
+                            othelloBoard.PlayMove(c - 1, r - 1, othelloBoard.getWhiteTurn());
+                            
+                            Ellipse ellipse = new Ellipse();
+                            if (othelloBoard.getWhiteTurn())
+                            {
+                                ellipse.Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                            }
+                            else
+                            {
+                                ellipse.Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                            }
+
+                            Grid.SetRow(ellipse, r);
+                            Grid.SetColumn(ellipse, c);
+
+                            board.Children.Add(ellipse);
+                        }
+
+                        void r_MouseLeave(object sender, MouseEventArgs e)
+                        {
+                            rect.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                        }
+
+                        void r_MouseEnter(object sender, MouseEventArgs e)
+                        {
+                            rect.Stroke = new SolidColorBrush(Color.FromRgb(255, 0, 0));
+                        }
+
                     }
                     else
                     {
