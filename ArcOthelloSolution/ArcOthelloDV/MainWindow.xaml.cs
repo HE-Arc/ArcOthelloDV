@@ -20,6 +20,9 @@ namespace ArcOthelloDV
     /// </summary>
     public partial class MainWindow : Window
     {
+        SolidColorBrush EMPTY = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+        SolidColorBrush WHITE = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+        SolidColorBrush BLACK = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
         Ellipse[,] ellipses;
 
@@ -38,14 +41,14 @@ namespace ArcOthelloDV
                     if (i > 0 && i < 8 && j > 0 && j < 10)
                     {
                         Rectangle rect = new Rectangle();
-                        rect.Stroke = new SolidColorBrush(Color.FromRgb(0, 0, 0));
-                        rect.Fill = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+                        rect.Stroke = BLACK;
+                        rect.Fill = EMPTY;
                         Grid.SetRow(rect, i);
                         Grid.SetColumn(rect, j);
                         board.Children.Add(rect);
                         
                         Ellipse ellipse = new Ellipse();
-                        ellipse.Fill = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+                        ellipse.Fill = EMPTY;
                         ellipse.Margin = new Thickness(3);
                         Grid.SetRow(ellipse, i);
                         Grid.SetColumn(ellipse, j);
@@ -68,7 +71,7 @@ namespace ArcOthelloDV
                             int c = Grid.GetColumn(element);
                             int r = Grid.GetRow(element);
 
-                            othelloBoard.PlayMove(c - 1, r - 1, othelloBoard.getWhiteTurn()); //Play on the board at this position
+                            othelloBoard.PlayMove(c - 1, r - 1, othelloBoard.WhiteTurn); //Play on the board at this position
 
                             updateBoardDisplay(othelloBoard.GetBoard());
                         }
@@ -82,7 +85,7 @@ namespace ArcOthelloDV
 
                             if (othelloBoard.isEmpty(c, r))
                             {
-                                ellipse.Fill = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+                                ellipse.Fill = EMPTY;
                             }
                         }
 
@@ -93,9 +96,9 @@ namespace ArcOthelloDV
                             int c = Grid.GetColumn(element) - 1;
                             int r = Grid.GetRow(element) - 1;
                             
-                            if (othelloBoard.isEmpty(c,r) && othelloBoard.IsPlayable(c, r, othelloBoard.getWhiteTurn()))
+                            if (othelloBoard.isEmpty(c,r) && othelloBoard.IsPlayable(c, r, othelloBoard.WhiteTurn))
                             {
-                                if (othelloBoard.getWhiteTurn())
+                                if (othelloBoard.WhiteTurn)
                                 {
                                     ellipse.Fill = new SolidColorBrush(Color.FromArgb(128, 255, 255, 255));
                                 }
@@ -136,6 +139,8 @@ namespace ArcOthelloDV
                     }
                 }
             }
+            
+            updateBoardDisplay(othelloBoard.GetBoard());
         }
 
         private void updateBoardDisplay(int[,] board)
@@ -146,18 +151,23 @@ namespace ArcOthelloDV
                 {
                     if (board[x, y] == 0)
                     {
-                        ellipses[x, y].Fill = new SolidColorBrush(Color.FromRgb(255, 255, 255));
+                        ellipses[x, y].Fill = WHITE;
                     }
                     else if(board[x,y] == 1)
                     {
-                        ellipses[x, y].Fill = new SolidColorBrush(Color.FromRgb(0, 0, 0));
+                        ellipses[x, y].Fill = BLACK;
                     }
                     else
                     {
-                        ellipses[x, y].Fill = new SolidColorBrush(Color.FromRgb(0, 178, 0));
+                        ellipses[x, y].Fill = EMPTY;
                     }
                 }
             }
+        }
+
+        private void menuExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
     }
 }

@@ -5,7 +5,12 @@ using System.Windows.Threading;
 
 namespace ArcOthelloDV
 {
-    
+    /// <summary>
+    /// Class OthelloBoard
+    /// Contains the logic of the game and stores the informations.
+    /// Implements Iplayable
+    /// </summary>
+    [Serializable]
     public class OthelloBoard : IPlayable.IPlayable, INotifyPropertyChanged
     {
         private const int EMPTY = -1;
@@ -16,7 +21,7 @@ namespace ArcOthelloDV
 
         private int[,] board;
 
-        private bool whiteTurn;
+        public bool WhiteTurn { get; set; }
 
         public string TimeElapsedWhite { get; set; }
         public string TimeElapsedBlack { get; set; }
@@ -28,14 +33,10 @@ namespace ArcOthelloDV
         public OthelloBoard()
         {
             initBoard();
+            
             startTimer();
         }
-
-        public bool getWhiteTurn()
-        {
-            return whiteTurn;
-        }
-
+        
         /// <summary>
         /// Check if the board is empty at this position
         /// </summary>
@@ -55,10 +56,12 @@ namespace ArcOthelloDV
 
             stopWatchWhite = new Stopwatch();
             stopWatchBlack = new Stopwatch();
+
             displayWhiteClock();
             displayBlackClock();
 
             stopWatchWhite.Start();
+            
             timer.Start();
         }
 
@@ -69,16 +72,10 @@ namespace ArcOthelloDV
 
         private void dispatcherTimerTick(object sender, EventArgs e)
         {
-            if (stopWatchWhite.IsRunning)
-            {
-                displayWhiteClock();
-            }
-            else if (stopWatchBlack.IsRunning)
-            {
-                displayBlackClock();
-            }
+            displayBlackClock();
+            displayWhiteClock();
         }
-        
+
         private void displayWhiteClock()
         {
             TimeSpan ts = stopWatchWhite.Elapsed;
@@ -98,7 +95,9 @@ namespace ArcOthelloDV
         /// </summary>
         private void initBoard()
         {
-            whiteTurn = true;
+            WhiteTurn = true;
+            OnPropertyChanged("WhiteTurn");
+
             board = new int[9, 7];
             for(int x = 0 ; x < 9 ; x++)
             {
@@ -107,12 +106,20 @@ namespace ArcOthelloDV
                     board[x, y] = EMPTY;
                 }
             }
+
+            //setup pawns of the start of the game
+            board[3, 3] = WHITE;
+            board[4, 3] = BLACK;
+            board[3, 4] = BLACK;
+            board[4, 4] = WHITE;
         }
 
         private void nextPlayer()
         {
-            whiteTurn = !whiteTurn;
-            if (whiteTurn)
+            WhiteTurn = !WhiteTurn;
+            OnPropertyChanged("WhiteTurn");
+
+            if (WhiteTurn)
             {
                 stopWatchBlack.Stop();
                 stopWatchWhite.Start();
@@ -163,27 +170,50 @@ namespace ArcOthelloDV
             return score;
         }
 
+        /// <summary>
+        /// gets the score of the black player
+        /// </summary>
+        /// <returns>the score of the black player</returns>
         public int GetBlackScore()
         {
             return getScore(BLACK);
         }
 
+        /// <summary>
+        /// get the board with -1 for empty, 0 for white and 1 for black
+        /// </summary>
+        /// <returns>a 2d Array of int whith the values for the pawns</returns>
         public int[,] GetBoard()
         {
             return board;
         }
 
+        /// <summary>
+        /// get the name of the IA Project
+        /// </summary>
+        /// <returns>the name of the IA</returns>
         public string GetName()
         {
             return "ArcOthello Donzé-Vorpe";
         }
 
+        /// <summary>
+        /// Finds the next best move to play
+        /// </summary>
+        /// <param name="game">the board to play on</param>
+        /// <param name="level">the depth of the search</param>
+        /// <param name="whiteTurn">if it is the turn of the white player</param>
+        /// <returns>(col, row) of the next best move</returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
             // IA Part
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// get the score of the white player
+        /// </summary>
+        /// <returns>the score of the white player</returns>
         public int GetWhiteScore()
         {
             return getScore(WHITE);
@@ -195,6 +225,13 @@ namespace ArcOthelloDV
             return true;
         }
 
+        /// <summary>
+        /// Play at a (col, row) position if possible
+        /// </summary>
+        /// <param name="column">the column to play on</param>
+        /// <param name="line">the row to play on</param>
+        /// <param name="isWhite">if it is the white player's turn</param>
+        /// <returns>true if could play</returns>
         public bool PlayMove(int column, int line, bool isWhite)
         {
             if (IsPlayable(column, line, isWhite))
