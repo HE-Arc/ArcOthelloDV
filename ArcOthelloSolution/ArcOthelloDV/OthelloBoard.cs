@@ -232,6 +232,7 @@ namespace ArcOthelloDV
 
         public bool IsPlayable(int column, int line, bool isWhite)
         {
+            Console.Write("------------------------------------------------------------------------------------");
             // board[column, line]
             // empty = -1, white = 0, black = 1
 
@@ -260,21 +261,21 @@ namespace ArcOthelloDV
 
                     // test en bas à droite
                     testLine += i;
-                    if (testColumn >= 9 || testLine > 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    if (testColumn >= 9 || testLine >= 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
                     {
                         droiteBas = false;
                     }
 
                     // test en bas
                     testColumn -= i;
-                    if (testLine > 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    if (testLine >= 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
                     {
                         bas = false;
                     }
 
                     // test en bas à gauche
                     testColumn -= i;
-                    if (testColumn < 0 || testLine > 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    if (testColumn < 0 || testLine >= 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
                     {
                         basGauche = false;
                     }
@@ -307,203 +308,220 @@ namespace ArcOthelloDV
                         hautDroite = false;
                     }
                 }
+                // 3 et 5 beug
+                // 1 et 7 environ ok
 
                 // si i > 1 : 
                 // si vide --> pas valide dans cette direction
                 // si la case était blanche --> si cette case est noire on continue, si elle est blanche on a un coup valide
                 // même idée si la case était noire
                 // test à droite :
-                testColumn += i;
-                if (droite)
+                else
                 {
-                    if (testColumn >= 9 || board[testColumn, testLine] == -1)
-                    {
-                        droite = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
-                        {
-                            return true;
-                        }
-                    }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
+                    testColumn = column;
+                    testLine = line;
 
-                // test en bas à droite
-                testLine += i;
-                if (droiteBas)
-                {
-                    if (testColumn >= 9 || testLine > 7 || board[testColumn, testLine] == -1)
+                    testColumn += i;
+                    Console.WriteLine("--------------------");
+                    if (droite)
                     {
-                        droiteBas = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
+                        Console.Write("1");
+                        if (testColumn >= 9 || board[testColumn, testLine] == -1)
                         {
-                            return true;
+                            droite = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
 
-                // test en bas
-                testColumn -= i;
-                if (bas)
-                {
-                    if (testLine > 7 || board[testColumn, testLine] == -1)
+                    // test en bas à droite
+                    testLine += i;
+                    if (droiteBas)
                     {
-                        bas = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
+                        Console.Write("2");
+                        if (testColumn >= 9 || testLine >= 7 || board[testColumn, testLine] == -1)
                         {
-                            return true;
+                            droiteBas = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
 
-                // test en bas à gauche
-                testColumn -= i;
-                if (basGauche)
-                {
-                    if (testColumn < 0 || testLine > 7 || board[testColumn, testLine] == -1)
+                    // test en bas
+                    testColumn -= i;
+                    if (bas)
                     {
-                        basGauche = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
+                        Console.Write("3");
+                        if (testLine >= 7 || board[testColumn, testLine] == -1)
                         {
-                            return true;
+                            bas = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
 
-                // test à gauche
-                testLine -= i;
-                if (gauche)
-                {
-                    if (testColumn < 0 || board[testColumn, testLine] == -1)
+                    // test en bas à gauche
+                    testColumn -= i;
+                    if (basGauche)
                     {
-                        gauche = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
+                        Console.Write("4");
+                        if (testColumn < 0 || testLine >= 7 || board[testColumn, testLine] == -1)
                         {
-                            return true;
+                            basGauche = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
 
-                // test en haut à gauche
-                testLine -= i;
-                if (gaucheHaut)
-                {
-                    if (testColumn < 0 || testLine < 0 || board[testColumn, testLine] == -1)
+                    // test à gauche
+                    testLine -= i;
+                    if (gauche)
                     {
-                        gaucheHaut = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
+                        Console.Write("5");
+                        if (testColumn < 0 || board[testColumn, testLine] == -1)
                         {
-                            return true;
+                            gauche = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
 
-                // test en haut
-                testColumn += i;
-                if (haut)
-                {
-                    if (testLine < 0 || board[testColumn, testLine] == -1)
+                    // test en haut à gauche
+                    testLine -= i;
+                    if (gaucheHaut)
                     {
-                        haut = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
+                        Console.Write("6");
+                        if (testColumn < 0 || testLine < 0 || board[testColumn, testLine] == -1)
                         {
-                            return true;
+                            gaucheHaut = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
 
-                // test en haut à droite
-                testColumn += i;
-                if (hautDroite)
-                {
-                    if (testColumn >= 9 || testLine < 0 || board[testColumn, testLine] == -1)
+                    // test en haut
+                    testColumn += i;
+                    if (haut)
                     {
-                        hautDroite = false;
-                    }
-                    else if (isWhite)
-                    {
-                        if (board[testColumn, testLine] == 0)
+                        Console.Write("7");
+                        if (testLine < 0 || board[testColumn, testLine] == -1)
                         {
-                            return true;
+                            haut = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
                         }
                     }
-                    else
-                    {
-                        if (board[testColumn, testLine] == 1)
-                        {
-                            return true;
-                        }
-                    }
-                }
 
+                    // test en haut à droite
+                    testColumn += i;
+                    if (hautDroite)
+                    {
+                        Console.Write("8");
+                        if (testColumn >= 9 || testLine < 0 || board[testColumn, testLine] == -1)
+                        {
+                            hautDroite = false;
+                        }
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                    Console.WriteLine("");
+                }
             }
 
             return false;
