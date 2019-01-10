@@ -56,10 +56,12 @@
                 <TextBlock Grid.Row="8" Grid.Column="9" VerticalAlignment="Center" HorizontalAlignment="Center" Text="WHITE"/>
                 <TextBlock Grid.Row="9" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Clock : "/>
                 <TextBlock Grid.Row="9" Grid.Column="9" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding TimeElapsedWhite}"/>
+                <TextBlock Grid.Row="10" Grid.Column="9" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding WhiteScore}"/>
 
                 <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="BLACK"/>
                 <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Clock : "/>
                 <TextBlock Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding TimeElapsedBlack}"/>
+                <TextBlock Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding BlackScore}"/>
             </Grid>
         </Border>
     </DockPanel>

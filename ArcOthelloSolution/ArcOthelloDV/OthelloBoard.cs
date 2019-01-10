@@ -23,6 +23,9 @@ namespace ArcOthelloDV
 
         public bool WhiteTurn { get; set; }
 
+        public int BlackScore { get; set; }
+        public int WhiteScore { get; set; }
+
         public string TimeElapsedWhite { get; set; }
         public string TimeElapsedBlack { get; set; }
 
@@ -112,6 +115,14 @@ namespace ArcOthelloDV
             board[4, 3] = BLACK;
             board[3, 4] = BLACK;
             board[4, 4] = WHITE;
+        }
+
+        private void initScore()
+        {
+            WhiteScore = 0;
+            OnPropertyChanged("WhiteScore");
+            BlackScore = 0;
+            OnPropertyChanged("BlackScore");
         }
 
         private void nextPlayer()
@@ -221,8 +232,281 @@ namespace ArcOthelloDV
 
         public bool IsPlayable(int column, int line, bool isWhite)
         {
-            // TODO
-            return true;
+            // board[column, line]
+            // empty = -1, white = 0, black = 1
+
+            if (board[column, line] != -1)
+            {
+                return false;
+            }
+
+            bool droite = true, droiteBas = true, bas = true, basGauche = true, gauche = true, gaucheHaut = true, haut = true, hautDroite = true;
+
+            for (int i = 1; i <= 8; i++)
+            {
+                int testColumn = column;
+                int testLine = line;
+
+                // si i = 1, il faut tester que c'est la couleur opposée sinon c'est pas valide dans cette 
+                // TODO
+                if (i == 1)
+                {
+                    // test à droite :
+                    testColumn += i;
+                    if (testColumn >= 9 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        droite = false;
+                    }
+
+                    // test en bas à droite
+                    testLine += i;
+                    if (testColumn >= 9 || testLine > 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        droiteBas = false;
+                    }
+
+                    // test en bas
+                    testColumn -= i;
+                    if (testLine > 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        bas = false;
+                    }
+
+                    // test en bas à gauche
+                    testColumn -= i;
+                    if (testColumn < 0 || testLine > 7 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        basGauche = false;
+                    }
+
+                    // test à gauche
+                    testLine -= i;
+                    if (testColumn < 0 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        gauche = false;
+                    }
+
+                    // test en haut à gauche
+                    testLine -= i;
+                    if (testColumn < 0 || testLine < 0 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        gaucheHaut = false;
+                    }
+
+                    // test en haut
+                    testColumn += i;
+                    if (testLine < 0 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        haut = false;
+                    }
+
+                    // test en haut à droite
+                    testColumn += i;
+                    if (testColumn >= 9 || testLine < 0 || board[testColumn, testLine] == -1 || (isWhite && board[testColumn, testLine] == 0) || (!isWhite && board[testColumn, testLine] == 1))
+                    {
+                        hautDroite = false;
+                    }
+                }
+
+                // si i > 1 : 
+                // si vide --> pas valide dans cette direction
+                // si la case était blanche --> si cette case est noire on continue, si elle est blanche on a un coup valide
+                // même idée si la case était noire
+                // test à droite :
+                testColumn += i;
+                if (droite)
+                {
+                    if (testColumn >= 9 || board[testColumn, testLine] == -1)
+                    {
+                        droite = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // test en bas à droite
+                testLine += i;
+                if (droiteBas)
+                {
+                    if (testColumn >= 9 || testLine > 7 || board[testColumn, testLine] == -1)
+                    {
+                        droiteBas = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // test en bas
+                testColumn -= i;
+                if (bas)
+                {
+                    if (testLine > 7 || board[testColumn, testLine] == -1)
+                    {
+                        bas = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // test en bas à gauche
+                testColumn -= i;
+                if (basGauche)
+                {
+                    if (testColumn < 0 || testLine > 7 || board[testColumn, testLine] == -1)
+                    {
+                        basGauche = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // test à gauche
+                testLine -= i;
+                if (gauche)
+                {
+                    if (testColumn < 0 || board[testColumn, testLine] == -1)
+                    {
+                        gauche = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // test en haut à gauche
+                testLine -= i;
+                if (gaucheHaut)
+                {
+                    if (testColumn < 0 || testLine < 0 || board[testColumn, testLine] == -1)
+                    {
+                        gaucheHaut = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // test en haut
+                testColumn += i;
+                if (haut)
+                {
+                    if (testLine < 0 || board[testColumn, testLine] == -1)
+                    {
+                        haut = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+                // test en haut à droite
+                testColumn += i;
+                if (hautDroite)
+                {
+                    if (testColumn >= 9 || testLine < 0 || board[testColumn, testLine] == -1)
+                    {
+                        hautDroite = false;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            return true;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            return true;
+                        }
+                    }
+                }
+
+            }
+
+            return false;
         }
 
         /// <summary>
@@ -246,6 +530,11 @@ namespace ArcOthelloDV
                 }
 
                 nextPlayer();
+
+                WhiteScore = GetWhiteScore();
+                OnPropertyChanged("WhiteScore");
+                BlackScore = GetBlackScore();
+                OnPropertyChanged("BlackScore");
 
                 return true;
             }
