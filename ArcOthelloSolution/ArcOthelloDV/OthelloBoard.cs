@@ -17,6 +17,7 @@ namespace ArcOthelloDV
         private const int WHITE = 0;
         private const int BLACK = 1;
 
+        [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
         private int[,] board;
@@ -29,9 +30,51 @@ namespace ArcOthelloDV
         public string TimeElapsedWhite { get; set; }
         public string TimeElapsedBlack { get; set; }
 
+        [NonSerialized]
         private DispatcherTimer timer;
+
+        public class Stopwatch : System.Diagnostics.Stopwatch
+        {
+            TimeSpan _offset = new TimeSpan();
+
+            public Stopwatch()
+            {
+            }
+
+            public Stopwatch(TimeSpan offset)
+            {
+                _offset = offset;
+            }
+
+            public void SetOffset(TimeSpan offsetElapsedTimeSpan)
+            {
+                _offset = offsetElapsedTimeSpan;
+            }
+
+            public new TimeSpan Elapsed
+            {
+                get { return base.Elapsed + _offset; }
+                set { _offset = value; }
+            }
+
+            public new long ElapsedMilliseconds
+            {
+                get { return base.ElapsedMilliseconds + _offset.Milliseconds; }
+            }
+
+            public new long ElapsedTicks
+            {
+                get { return base.ElapsedTicks + _offset.Ticks; }
+            }
+        }
+
+        [NonSerialized]
         private Stopwatch stopWatchWhite;
+        [NonSerialized]
         private Stopwatch stopWatchBlack;
+
+        private TimeSpan stopWatchWhiteSave;
+        private TimeSpan stopWatchBlackSave;
 
         public OthelloBoard()
         {
@@ -508,6 +551,7 @@ namespace ArcOthelloDV
         {
             initBoard();
             startTimer();
+            updateScore();
         }
 
         /// <summary>
@@ -540,6 +584,27 @@ namespace ArcOthelloDV
             {
                 return false;
             }
+        }
+
+        /// <summary>
+        /// Save the current state of the timers
+        /// </summary>
+        public void Save()
+        {
+            stopWatchWhiteSave = stopWatchWhite.Elapsed;
+            stopWatchBlackSave = stopWatchBlack.Elapsed;
+        }
+
+        /// <summary>
+        /// Restore the last saved state of the timers
+        /// </summary>
+        public void Restore()
+        {
+            startTimer();
+            stopWatchWhite.SetOffset(stopWatchWhiteSave);
+            stopWatchBlack.SetOffset(stopWatchBlackSave);
+
+            updateScore();
         }
     }
 }

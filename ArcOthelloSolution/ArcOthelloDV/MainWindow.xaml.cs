@@ -1,4 +1,8 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
+using System.IO;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -169,6 +173,50 @@ namespace ArcOthelloDV
         {
             othelloBoard.NewGame();
             updateBoardDisplay(othelloBoard.GetBoard());
+        }
+
+        private void menuSave_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "Text file (*.txt)|*.txt";
+            saveFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            saveFileDialog.FileName = "othelloSave.txt";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(saveFileDialog.FileName, FileMode.Create, FileAccess.Write);
+
+                othelloBoard.Save();
+
+                formatter.Serialize(stream, othelloBoard);
+                stream.Close();
+            }
+        }
+
+        private void menuOpen_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Text file (*.txt)|*.txt";
+            openFileDialog.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            if (openFileDialog.ShowDialog() == true)
+            {
+                IFormatter formatter = new BinaryFormatter();
+                Stream stream = new FileStream(openFileDialog.FileName, FileMode.Open, FileAccess.Read);
+                try
+                {
+                    othelloBoard = (OthelloBoard)formatter.Deserialize(stream);
+
+                    this.DataContext = othelloBoard;
+
+                    othelloBoard.Restore();
+
+                    updateBoardDisplay(othelloBoard.GetBoard());
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid File Type", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
     }
 }
