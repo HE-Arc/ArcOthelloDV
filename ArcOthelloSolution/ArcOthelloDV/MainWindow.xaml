@@ -8,7 +8,7 @@
         Title="ArcOthelloDV" Width="1000"
         WindowStartupLocation="CenterScreen"
         MinWidth="800"
-        MinHeight="800"
+        MinHeight="600"
         DataContext="{Binding Source={StaticResource OthelloBoard}}">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -24,7 +24,7 @@
             <Grid
             Name="board"
             Margin="0"
-            Background="LightGoldenrodYellow"
+            Background="Transparent"
             Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Mode=Self}}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*" />
@@ -53,19 +53,49 @@
                     <RowDefinition Height="*" />
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="8" Grid.Column="9" VerticalAlignment="Center" HorizontalAlignment="Center" Text="WHITE"/>
-                <TextBlock Grid.Row="9" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Clock : "/>
-                <TextBlock Grid.Row="9" Grid.Column="9" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding TimeElapsedWhite}"/>
-                
-                <TextBlock Grid.Row="10" Grid.Column="8" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Score : "/>
-                <TextBlock Grid.Row="10" Grid.Column="9" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding WhiteScore}"/>
+                <Border Grid.Row="8" Grid.Column="8" Grid.ColumnSpan="2"
+                        BorderThickness="4" Margin="4"
+                        CornerRadius="10">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WhiteTurn}" Value="True">
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="WHITE"/>
+                </Border>
 
-                <TextBlock Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="BLACK"/>
-                <TextBlock Grid.Row="9" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Clock : "/>
-                <TextBlock Grid.Row="9" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding TimeElapsedBlack}"/>
+                <TextBlock Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Clock : "/>
+                <TextBlock Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding TimeElapsedWhite}"/>
+
+                <TextBlock Grid.Row="10" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Score : "/>
+                <TextBlock Grid.Row="10" Grid.Column="9" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding WhiteScore}"/>
                 
-                <TextBlock Grid.Row="10" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Right" Text="Score : "/>
-                <TextBlock Grid.Row="10" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Text="{Binding BlackScore}"/>
+                <Border Grid.Row="8" Grid.Column="1" Grid.ColumnSpan="2"
+                        BorderThickness="4" Margin="4"
+                        CornerRadius="10">
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding WhiteTurn}" Value="False">
+                                    <Setter Property="BorderBrush" Value="Black"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" FontWeight="SemiBold" Text="BLACK"/>
+                </Border>
+                
+                <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Clock : "/>
+                <TextBlock Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding TimeElapsedBlack}"/>
+
+                <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Score : "/>
+                <TextBlock Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding BlackScore}"/>
             </Grid>
         </Border>
     </DockPanel>

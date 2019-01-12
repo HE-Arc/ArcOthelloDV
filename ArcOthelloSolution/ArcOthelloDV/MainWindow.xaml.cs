@@ -67,10 +67,10 @@ namespace ArcOthelloDV
                         {
                             var element = (UIElement)e.Source;
 
-                            int c = Grid.GetColumn(element);
-                            int r = Grid.GetRow(element);
+                            int c = Grid.GetColumn(element) - 1;
+                            int r = Grid.GetRow(element) - 1;
 
-                            othelloBoard.PlayMove(c - 1, r - 1, othelloBoard.WhiteTurn); //Play on the board at this position
+                            othelloBoard.PlayMove(c, r, othelloBoard.WhiteTurn); //Play on the board at this position
 
                             updateBoardDisplay(othelloBoard.GetBoard());
                         }

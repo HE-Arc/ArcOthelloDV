@@ -135,7 +135,7 @@ namespace ArcOthelloDV
         }
 
         /// <summary>
-        /// Initialises the board with empty values
+        /// Initialises the board with empty values and the 4 starting pawns
         /// </summary>
         private void initBoard()
         {
