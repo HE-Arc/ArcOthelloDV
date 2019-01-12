@@ -79,6 +79,8 @@ namespace ArcOthelloDV
                         {
                             var element = (UIElement)e.Source;
 
+                            this.Cursor = Cursors.Arrow;
+
                             int c = Grid.GetColumn(element) - 1;
                             int r = Grid.GetRow(element) - 1;
 
@@ -92,10 +94,12 @@ namespace ArcOthelloDV
                         {
                             var element = (UIElement)e.Source;
 
+                            this.Cursor = Cursors.Hand;
+
                             int c = Grid.GetColumn(element) - 1;
                             int r = Grid.GetRow(element) - 1;
                             
-                            if (othelloBoard.isEmpty(c,r) && othelloBoard.IsPlayable(c, r, othelloBoard.WhiteTurn))
+                            if (othelloBoard.IsPlayable(c, r, othelloBoard.WhiteTurn))
                             {
                                 if (othelloBoard.WhiteTurn)
                                 {

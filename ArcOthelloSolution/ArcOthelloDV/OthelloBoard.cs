@@ -33,6 +33,9 @@ namespace ArcOthelloDV
         [NonSerialized]
         private DispatcherTimer timer;
 
+        /// <summary>
+        /// Custom Stopwatch to be able to set time for saving game state
+        /// </summary>
         public class Stopwatch : System.Diagnostics.Stopwatch
         {
             TimeSpan _offset = new TimeSpan();
@@ -116,8 +119,12 @@ namespace ArcOthelloDV
 
         private void dispatcherTimerTick(object sender, EventArgs e)
         {
-            displayBlackClock();
-            displayWhiteClock();
+            if (stopWatchWhite.IsRunning)
+                displayWhiteClock();
+            
+            if(stopWatchBlack.IsRunning)
+                displayBlackClock();
+            
         }
 
         private void displayWhiteClock()
@@ -263,7 +270,7 @@ namespace ArcOthelloDV
             // board[column, line]
             // empty = -1, white = 0, black = 1
 
-            if (board[column, line] != -1)
+            if (board[column, line] != EMPTY)
             {
                 return false;
             }
@@ -601,8 +608,23 @@ namespace ArcOthelloDV
         public void Restore()
         {
             startTimer();
+
             stopWatchWhite.SetOffset(stopWatchWhiteSave);
             stopWatchBlack.SetOffset(stopWatchBlackSave);
+
+            displayWhiteClock();
+            displayBlackClock();
+
+            if (WhiteTurn)
+            {
+                stopWatchBlack.Stop();
+                stopWatchWhite.Start();
+            }
+            else
+            {
+                stopWatchWhite.Stop();
+                stopWatchBlack.Start();
+            }
 
             updateScore();
         }
