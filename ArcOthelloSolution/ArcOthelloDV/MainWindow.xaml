@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen"
         MinWidth="800"
         MinHeight="600"
-        DataContext="{Binding Source={StaticResource OthelloBoard}}">
+        >
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -20,7 +20,10 @@
                 <MenuItem Header="_Exit" Click="menuExit_Click"/>
             </MenuItem>
         </Menu>
-        <Border BorderThickness="0" Margin="10" Background="LightGoldenrodYellow" CornerRadius="100">
+        <Border BorderThickness="0" 
+                Margin="10" 
+                Background="LightGoldenrodYellow" 
+                CornerRadius="100">
             <Grid
             Name="board"
             Margin="5"
@@ -67,14 +70,23 @@
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
-                    <TextBlock VerticalAlignment="Top" Margin="5" HorizontalAlignment="Center" FontSize="20" FontWeight="SemiBold" Text="WHITE"/>
+                    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"
+                               Margin="5" FontSize="20" FontWeight="SemiBold" Text="WHITE"/>
                 </Border>
 
-                <TextBlock Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Clock : "/>
-                <TextBlock Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding TimeElapsedWhite}"/>
+                <TextBlock Grid.Row="9" Grid.Column="7" Grid.ColumnSpan="2" 
+                           VerticalAlignment="Center" HorizontalAlignment="Right" 
+                           FontSize="16" Text="Clock : "/>
+                <TextBlock Grid.Row="9" Grid.Column="9" Grid.ColumnSpan="2" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           FontSize="16" Text="{Binding TimeElapsedWhite}"/>
 
-                <TextBlock Grid.Row="10" Grid.Column="7" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Score : "/>
-                <TextBlock Grid.Row="10" Grid.Column="9" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding WhiteScore}"/>
+                <TextBlock Grid.Row="10" Grid.Column="7" Grid.ColumnSpan="2" 
+                           VerticalAlignment="Center" HorizontalAlignment="Right" 
+                           FontSize="16" Text="Score : "/>
+                <TextBlock Grid.Row="10" Grid.Column="9" Grid.ColumnSpan="2" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           FontSize="16" Text="{Binding WhiteScore}"/>
                 
                 <Border Grid.Row="8" Grid.Column="0"
                         Grid.ColumnSpan="4" Grid.RowSpan="4"
@@ -90,14 +102,23 @@
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
-                    <TextBlock VerticalAlignment="Top" Margin="5" HorizontalAlignment="Center" FontSize="20" FontWeight="SemiBold" Text="BLACK"/>
+                    <TextBlock VerticalAlignment="Top" HorizontalAlignment="Center"
+                               Margin="5" FontSize="20" FontWeight="SemiBold" Text="BLACK"/>
                 </Border>
                 
-                <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Clock : "/>
-                <TextBlock Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding TimeElapsedBlack}"/>
+                <TextBlock Grid.Row="9" Grid.Column="0" Grid.ColumnSpan="2" 
+                           VerticalAlignment="Center" HorizontalAlignment="Right" 
+                           FontSize="16" Text="Clock : "/>
+                <TextBlock Grid.Row="9" Grid.Column="2" Grid.ColumnSpan="2"
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           FontSize="16" Text="{Binding TimeElapsedBlack}"/>
 
-                <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16" Text="Score : "/>
-                <TextBlock Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="16" Text="{Binding BlackScore}"/>
+                <TextBlock Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" 
+                           VerticalAlignment="Center" HorizontalAlignment="Right" 
+                           FontSize="16" Text="Score : "/>
+                <TextBlock Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" 
+                           VerticalAlignment="Center" HorizontalAlignment="Center" 
+                           FontSize="16" Text="{Binding BlackScore}"/>
             </Grid>
         </Border>
     </DockPanel>

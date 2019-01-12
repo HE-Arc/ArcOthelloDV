@@ -4,6 +4,6 @@
              xmlns:model="clr-namespace:ArcOthelloDV"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <model:OthelloBoard x:Key="OthelloBoard"/>
+        
     </Application.Resources>
 </Application>
