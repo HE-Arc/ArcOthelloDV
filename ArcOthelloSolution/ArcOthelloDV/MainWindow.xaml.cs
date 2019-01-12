@@ -1,16 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace ArcOthelloDV
@@ -25,12 +17,15 @@ namespace ArcOthelloDV
         SolidColorBrush BLACK = new SolidColorBrush(Color.FromRgb(0, 0, 0));
 
         Ellipse[,] ellipses;
+        OthelloBoard othelloBoard;
 
         public MainWindow()
         {
             InitializeComponent();
 
-            OthelloBoard othelloBoard = new OthelloBoard();
+            othelloBoard = new OthelloBoard();
+
+            this.DataContext = othelloBoard;
 
             ellipses = new Ellipse[9, 7];
 
@@ -168,6 +163,12 @@ namespace ArcOthelloDV
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void menuNewGame_Click(object sender, RoutedEventArgs e)
+        {
+            othelloBoard.NewGame();
+            updateBoardDisplay(othelloBoard.GetBoard());
         }
     }
 }

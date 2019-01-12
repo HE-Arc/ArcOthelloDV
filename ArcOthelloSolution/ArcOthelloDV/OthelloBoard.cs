@@ -35,9 +35,7 @@ namespace ArcOthelloDV
 
         public OthelloBoard()
         {
-            initBoard();
-            
-            startTimer();
+            NewGame();
         }
         
         /// <summary>
@@ -55,7 +53,7 @@ namespace ArcOthelloDV
         {
             timer = new DispatcherTimer();
             timer.Tick += dispatcherTimerTick;
-            timer.Interval = new TimeSpan(0, 0, 0, 0, 10);
+            timer.Interval = new TimeSpan(0, 0, 0, 0, 50);
 
             stopWatchWhite = new Stopwatch();
             stopWatchBlack = new Stopwatch();
@@ -115,15 +113,18 @@ namespace ArcOthelloDV
             board[4, 3] = BLACK;
             board[3, 4] = BLACK;
             board[4, 4] = WHITE;
+
+            updateScore();
         }
 
-        private void initScore()
+        private void updateScore()
         {
-            WhiteScore = 0;
+            WhiteScore = GetWhiteScore();
             OnPropertyChanged("WhiteScore");
-            BlackScore = 0;
+            BlackScore = GetBlackScore();
             OnPropertyChanged("BlackScore");
         }
+
 
         private void nextPlayer()
         {
@@ -139,22 +140,6 @@ namespace ArcOthelloDV
             {
                 stopWatchWhite.Stop();
                 stopWatchBlack.Start();
-            }
-        }
-
-        /// <summary>
-        /// prints the board in the console
-        /// </summary>
-        public void printBoard()
-        {
-            for (int x = 0; x < 7; x++)
-            {
-                for (int y = 0; y < 9; y++)
-                {
-                    Console.Write(board[y,x]);
-                    Console.Write(" ");
-                }
-                Console.WriteLine("");
             }
         }
 
@@ -232,7 +217,6 @@ namespace ArcOthelloDV
 
         public bool IsPlayable(int column, int line, bool isWhite)
         {
-            Console.Write("------------------------------------------------------------------------------------");
             // board[column, line]
             // empty = -1, white = 0, black = 1
 
@@ -322,10 +306,8 @@ namespace ArcOthelloDV
                     testLine = line;
 
                     testColumn += i;
-                    Console.WriteLine("--------------------");
                     if (droite)
                     {
-                        Console.Write("1");
                         if (testColumn >= 9 || board[testColumn, testLine] == -1)
                         {
                             droite = false;
@@ -350,7 +332,6 @@ namespace ArcOthelloDV
                     testLine += i;
                     if (droiteBas)
                     {
-                        Console.Write("2");
                         if (testColumn >= 9 || testLine >= 7 || board[testColumn, testLine] == -1)
                         {
                             droiteBas = false;
@@ -375,7 +356,6 @@ namespace ArcOthelloDV
                     testColumn -= i;
                     if (bas)
                     {
-                        Console.Write("3");
                         if (testLine >= 7 || board[testColumn, testLine] == -1)
                         {
                             bas = false;
@@ -400,7 +380,6 @@ namespace ArcOthelloDV
                     testColumn -= i;
                     if (basGauche)
                     {
-                        Console.Write("4");
                         if (testColumn < 0 || testLine >= 7 || board[testColumn, testLine] == -1)
                         {
                             basGauche = false;
@@ -425,7 +404,6 @@ namespace ArcOthelloDV
                     testLine -= i;
                     if (gauche)
                     {
-                        Console.Write("5");
                         if (testColumn < 0 || board[testColumn, testLine] == -1)
                         {
                             gauche = false;
@@ -450,7 +428,6 @@ namespace ArcOthelloDV
                     testLine -= i;
                     if (gaucheHaut)
                     {
-                        Console.Write("6");
                         if (testColumn < 0 || testLine < 0 || board[testColumn, testLine] == -1)
                         {
                             gaucheHaut = false;
@@ -475,7 +452,6 @@ namespace ArcOthelloDV
                     testColumn += i;
                     if (haut)
                     {
-                        Console.Write("7");
                         if (testLine < 0 || board[testColumn, testLine] == -1)
                         {
                             haut = false;
@@ -500,7 +476,6 @@ namespace ArcOthelloDV
                     testColumn += i;
                     if (hautDroite)
                     {
-                        Console.Write("8");
                         if (testColumn >= 9 || testLine < 0 || board[testColumn, testLine] == -1)
                         {
                             hautDroite = false;
@@ -520,11 +495,19 @@ namespace ArcOthelloDV
                             }
                         }
                     }
-                    Console.WriteLine("");
                 }
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// Starts a new Game
+        /// </summary>
+        public void NewGame()
+        {
+            initBoard();
+            startTimer();
         }
 
         /// <summary>
@@ -549,10 +532,7 @@ namespace ArcOthelloDV
 
                 nextPlayer();
 
-                WhiteScore = GetWhiteScore();
-                OnPropertyChanged("WhiteScore");
-                BlackScore = GetBlackScore();
-                OnPropertyChanged("BlackScore");
+                updateScore();
 
                 return true;
             }

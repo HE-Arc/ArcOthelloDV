@@ -31,7 +31,6 @@ D:\dev\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.pdb
 D:\dev\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\bin\Debug\IPlayable.dll
 D:\dev\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.csproj.CopyComplete
 D:\dev\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\GeneratedInternalTypeHelper.g.cs
-D:\dev\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\App.baml
 C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\bin\Debug\IPlayable.dll
 C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\dev\C#\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\App.baml
@@ -55,3 +54,4 @@ D:\ETUDES\Dot.Net\Projets\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug
 D:\ETUDES\Dot.Net\Projets\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.csproj.CopyComplete
 D:\ETUDES\Dot.Net\Projets\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.exe
 D:\ETUDES\Dot.Net\Projets\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\ArcOthelloDV.pdb
+D:\dev\ArcOthelloDV\ArcOthelloSolution\ArcOthelloDV\obj\Debug\App.baml
