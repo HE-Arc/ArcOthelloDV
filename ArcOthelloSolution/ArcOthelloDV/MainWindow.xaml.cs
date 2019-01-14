@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
@@ -73,6 +74,7 @@ namespace ArcOthelloDV
                             othelloBoard.PlayMove(c, r, othelloBoard.WhiteTurn); //Play on the board at this position
 
                             updateBoardDisplay(othelloBoard.GetBoard());
+                            updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
                         }
 
                         void r_MouseLeave(object sender, MouseEventArgs e)
@@ -88,6 +90,7 @@ namespace ArcOthelloDV
                             {
                                 ellipse.Fill = EMPTY;
                             }
+                            updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
                         }
 
                         void r_MouseEnter(object sender, MouseEventArgs e)
@@ -144,6 +147,7 @@ namespace ArcOthelloDV
             }
             
             updateBoardDisplay(othelloBoard.GetBoard());
+            updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
         }
 
         private void updateBoardDisplay(int[,] board)
@@ -168,6 +172,21 @@ namespace ArcOthelloDV
             }
         }
 
+        private void updatePlayableCellsDisplay(List<int> playableCells)
+        {
+            for (int i = 0; i < playableCells.Count; i += 2)
+            {
+                if (othelloBoard.WhiteTurn)
+                {
+                    ellipses[playableCells[i], playableCells[i + 1]].Fill = new SolidColorBrush(Color.FromArgb(64, 255, 255, 255));
+                }
+                else
+                {
+                    ellipses[playableCells[i], playableCells[i + 1]].Fill = new SolidColorBrush(Color.FromArgb(64, 0, 0, 0));
+                }
+            }
+        }
+
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -177,6 +196,7 @@ namespace ArcOthelloDV
         {
             othelloBoard.NewGame();
             updateBoardDisplay(othelloBoard.GetBoard());
+            updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
         }
 
         private void menuSave_Click(object sender, RoutedEventArgs e)
@@ -215,6 +235,7 @@ namespace ArcOthelloDV
                     othelloBoard.Restore();
 
                     updateBoardDisplay(othelloBoard.GetBoard());
+                    updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
                 }
                 catch
                 {

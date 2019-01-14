@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Windows.Threading;
@@ -21,6 +22,7 @@ namespace ArcOthelloDV
         public event PropertyChangedEventHandler PropertyChanged;
 
         private int[,] board;
+        private List<int> playableCells;
 
         public bool WhiteTurn { get; set; }
 
@@ -164,6 +166,9 @@ namespace ArcOthelloDV
             board[3, 4] = BLACK;
             board[4, 4] = WHITE;
 
+            playableCells = new List<int>();
+            computePlayableCells(true);
+
             updateScore();
         }
 
@@ -234,6 +239,11 @@ namespace ArcOthelloDV
             return board;
         }
 
+        public List<int> getPlayableCells()
+        {
+            return playableCells;
+        }
+
         /// <summary>
         /// get the name of the IA Project
         /// </summary>
@@ -265,7 +275,35 @@ namespace ArcOthelloDV
             return getScore(WHITE);
         }
 
+        public void computePlayableCells(bool isWhite)
+        {
+            playableCells.Clear();
+            for (int column = 0; column < 9; column++)
+            {
+                for (int line = 0; line < 7; line++)
+                {
+                    if (checkCellPlayability(column, line, isWhite))
+                    {
+                        playableCells.Add(column);
+                        playableCells.Add(line);
+                    }
+                }
+            }
+        }
+
         public bool IsPlayable(int column, int line, bool isWhite)
+        {
+            for (int i = 0; i < playableCells.Count; i+=2)
+            {
+                if (column == playableCells[i] && line == playableCells[i+1])
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public bool checkCellPlayability(int column, int line, bool isWhite)
         {
             // board[column, line]
             // empty = -1, white = 0, black = 1
@@ -584,7 +622,7 @@ namespace ArcOthelloDV
 
                 updateScore();
 
-                Console.WriteLine(board[4,3]);
+                computePlayableCells(!isWhite);
 
                 return true;
             }
