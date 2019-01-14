@@ -144,6 +144,15 @@ namespace ArcOthelloDV
             TimeElapsedBlack = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
             OnPropertyChanged("TimeElapsedBlack");
         }
+        
+        /// <summary>
+        /// Stops the clocks
+        /// </summary>
+        public void StopClocks()
+        {
+            stopWatchWhite.Stop();
+            stopWatchBlack.Stop();
+        }
 
         /// <summary>
         /// Initialises the board with empty values and the 4 starting pawns

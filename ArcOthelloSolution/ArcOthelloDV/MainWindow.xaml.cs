@@ -82,6 +82,7 @@ namespace ArcOthelloDV
 
                                 if (othelloBoard.getIsOver())
                                 {
+                                    othelloBoard.StopClocks();
                                     isOver = true;
                                     if (othelloBoard.GetWhiteScore() > othelloBoard.GetBlackScore())
                                     {
