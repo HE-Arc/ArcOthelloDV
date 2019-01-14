@@ -282,8 +282,7 @@ namespace ArcOthelloDV
                 int testColumn = column;
                 int testLine = line;
 
-                // si i = 1, il faut tester que c'est la couleur opposée sinon c'est pas valide dans cette 
-                // TODO
+                // si i = 1, il faut tester que c'est la couleur opposée sinon c'est pas valide dans cette direction
                 if (i == 1)
                 {
                     // test à droite :
@@ -342,8 +341,6 @@ namespace ArcOthelloDV
                         hautDroite = false;
                     }
                 }
-                // 3 et 5 beug
-                // 1 et 7 environ ok
 
                 // si i > 1 : 
                 // si vide --> pas valide dans cette direction
@@ -581,15 +578,96 @@ namespace ArcOthelloDV
                     board[column, line] = BLACK;
                 }
 
+                updateBoard(isWhite, column, line);
+
                 nextPlayer();
 
                 updateScore();
+
+                Console.WriteLine(board[4,3]);
 
                 return true;
             }
             else
             {
                 return false;
+            }
+        }
+
+        public void updateBoard(bool isWhite, int column, int line)
+        {
+            updateDirection(isWhite, column, line, 1, 0);
+            updateDirection(isWhite, column, line, 1, 1);
+            updateDirection(isWhite, column, line, 0, 1);
+            updateDirection(isWhite, column, line, -1, 1);
+            updateDirection(isWhite, column, line, -1, 0);
+            updateDirection(isWhite, column, line, -1, -1);
+            updateDirection(isWhite, column, line, 0, -1);
+            updateDirection(isWhite, column, line, 1, -1);
+        }
+
+        public void updateDirection(bool isWhite, int column, int line, int deltaColumn, int deltaLine)
+        {
+            int testColumn = column;
+            int testLine = line;
+            int maxI = 0;
+
+            for (int i = 1; i <= 8; i++)
+            {
+                testColumn += deltaColumn;
+                testLine += deltaLine;
+                if (testColumn < 0 || testColumn >= 9 || testLine < 0 || testLine >= 7)
+                {
+                    break;
+                }
+                else
+                {
+                    if (board[testColumn, testLine] == -1)
+                    {
+                        break;
+                    }
+                    else if (isWhite)
+                    {
+                        if (board[testColumn, testLine] == 0)
+                        {
+                            maxI = i;
+                            break;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                    else
+                    {
+                        if (board[testColumn, testLine] == 1)
+                        {
+                            maxI = i;
+                            break;
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+                }
+            }
+            
+            testColumn = column;
+            testLine = line;
+            for (int i = 0; i < maxI - 1; i++)
+            {
+                testColumn += deltaColumn;
+                testLine += deltaLine;
+                
+                if (isWhite)
+                {
+                    board[testColumn, testLine] = 0;
+                }
+                else
+                {
+                    board[testColumn, testLine] = 1;
+                }
             }
         }
 
