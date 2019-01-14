@@ -743,6 +743,7 @@ namespace ArcOthelloDV
             }
 
             updateScore();
+            computePlayableCells(WhiteTurn);
         }
     }
 }
