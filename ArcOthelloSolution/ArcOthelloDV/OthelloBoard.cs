@@ -24,6 +24,8 @@ namespace ArcOthelloDV
         private int[,] board;
         private List<int> playableCells;
 
+        private bool isOver;
+
         public bool WhiteTurn { get; set; }
 
         public int BlackScore { get; set; }
@@ -151,6 +153,8 @@ namespace ArcOthelloDV
             WhiteTurn = true;
             OnPropertyChanged("WhiteTurn");
 
+            isOver = false;
+
             board = new int[9, 7];
             for(int x = 0 ; x < 9 ; x++)
             {
@@ -242,6 +246,11 @@ namespace ArcOthelloDV
         public List<int> getPlayableCells()
         {
             return playableCells;
+        }
+
+        public bool getIsOver()
+        {
+            return isOver;
         }
 
         /// <summary>
@@ -624,6 +633,20 @@ namespace ArcOthelloDV
 
                 computePlayableCells(!isWhite);
 
+                if (playableCells.Count == 0)
+                {
+                    computePlayableCells(isWhite);
+
+                    if (playableCells.Count == 0)
+                    {
+                        isOver = true;
+                        // TODO stop timewatch
+                    }
+                    else
+                    {
+                        nextPlayer();
+                    }
+                }
                 return true;
             }
             else

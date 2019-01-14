@@ -24,6 +24,8 @@ namespace ArcOthelloDV
         Ellipse[,] ellipses;
         OthelloBoard othelloBoard;
 
+        bool isOver = false;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -66,15 +68,39 @@ namespace ArcOthelloDV
 
                         void r_MouseClick(object sender, MouseEventArgs e)
                         {
-                            var element = (UIElement)e.Source;
+                            if (!isOver)
+                            {
+                                var element = (UIElement)e.Source;
 
-                            int c = Grid.GetColumn(element) - 1;
-                            int r = Grid.GetRow(element) - 1;
+                                int c = Grid.GetColumn(element) - 1;
+                                int r = Grid.GetRow(element) - 1;
 
-                            othelloBoard.PlayMove(c, r, othelloBoard.WhiteTurn); //Play on the board at this position
+                                othelloBoard.PlayMove(c, r, othelloBoard.WhiteTurn); //Play on the board at this position
 
-                            updateBoardDisplay(othelloBoard.GetBoard());
-                            updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
+                                updateBoardDisplay(othelloBoard.GetBoard());
+                                updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
+
+                                if (othelloBoard.getIsOver())
+                                {
+                                    isOver = true;
+                                    if (othelloBoard.GetWhiteScore() > othelloBoard.GetBlackScore())
+                                    {
+                                        MessageBox.Show("Game finished, white player won !");
+                                    }
+                                    else if (othelloBoard.GetWhiteScore() < othelloBoard.GetBlackScore())
+                                    {
+                                        MessageBox.Show("Game finished, black player won !");
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Game finished, you are tied !");
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("To play again, open the menu and select \"new game\"");
+                            }
                         }
 
                         void r_MouseLeave(object sender, MouseEventArgs e)
