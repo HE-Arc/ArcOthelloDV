@@ -88,6 +88,12 @@ namespace ArcOthelloDV
             NewGame();
         }
         
+        public OthelloBoard(int[,] board, bool whiteTurn)
+        {
+            this.WhiteTurn = whiteTurn;
+            this.board = board.Clone() as int[,];
+        }
+
         /// <summary>
         /// Check if the board is empty at this position
         /// </summary>
@@ -280,8 +286,50 @@ namespace ArcOthelloDV
         /// <returns>(col, row) of the next best move</returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
-            // IA Part
-            throw new NotImplementedException();
+
+
+
+
+            return new Tuple<int, int>(0, 0);
+        }
+
+        private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue)
+        {
+            if(depth == 0 || root.getIsOver())
+            {
+                return new Tuple<int, Tuple<int, int>>(root.eval(), new Tuple<int, int>(-1, -1));
+            }
+
+            int optVal = minOrMax * int.MinValue;
+            Tuple<int, int> optOp = new Tuple<int, int>(-1, -1);
+
+            List<int> possibleMoves = root.getPlayableCells();
+
+            for (int i = 0; i < possibleMoves.Count; i += 2)
+            {
+                OthelloBoard newBoard = new OthelloBoard(root.GetBoard(), root.WhiteTurn);
+                newBoard.PlayMove(possibleMoves[i], possibleMoves[i+1], newBoard.WhiteTurn);
+
+                Tuple<int, Tuple<int, int>> valDummy = alphabeta(newBoard, depth-1, -minOrMax, optVal);
+                int val = valDummy.Item1;
+                Tuple<int, int> dummy = valDummy.Item2;
+                
+                //TODO
+
+            }
+
+            return new Tuple<int, Tuple<int, int>>(0, new Tuple<int,int>(0,0));
+        }
+
+        internal class TreeNode
+        {
+
+        }
+
+        private int eval()
+        {
+
+            return 0;
         }
 
         /// <summary>
@@ -779,4 +827,5 @@ namespace ArcOthelloDV
             computePlayableCells(WhiteTurn);
         }
     }
+
 }
