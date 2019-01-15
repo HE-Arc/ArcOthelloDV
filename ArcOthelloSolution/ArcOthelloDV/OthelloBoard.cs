@@ -148,7 +148,7 @@ namespace ArcOthelloDV
         /// <summary>
         /// Stops the clocks
         /// </summary>
-        public void StopClocks()
+        private void stopClocks()
         {
             stopWatchWhite.Stop();
             stopWatchBlack.Stop();
@@ -293,7 +293,7 @@ namespace ArcOthelloDV
             return getScore(WHITE);
         }
 
-        public void computePlayableCells(bool isWhite)
+        private void computePlayableCells(bool isWhite)
         {
             playableCells.Clear();
             for (int column = 0; column < 9; column++)
@@ -321,7 +321,7 @@ namespace ArcOthelloDV
             return false;
         }
 
-        public bool checkCellPlayability(int column, int line, bool isWhite)
+        private bool checkCellPlayability(int column, int line, bool isWhite)
         {
             // board[column, line]
             // empty = -1, white = 0, black = 1
@@ -609,6 +609,7 @@ namespace ArcOthelloDV
         /// </summary>
         public void NewGame()
         {
+            isOver = false;
             initBoard();
             startTimer();
             updateScore();
@@ -649,7 +650,7 @@ namespace ArcOthelloDV
                     if (playableCells.Count == 0)
                     {
                         isOver = true;
-                        // TODO stop timewatch
+                        stopClocks();
                     }
                     else
                     {
@@ -676,7 +677,7 @@ namespace ArcOthelloDV
             updateDirection(isWhite, column, line, 1, -1);
         }
 
-        public void updateDirection(bool isWhite, int column, int line, int deltaColumn, int deltaLine)
+        private void updateDirection(bool isWhite, int column, int line, int deltaColumn, int deltaLine)
         {
             int testColumn = column;
             int testLine = line;

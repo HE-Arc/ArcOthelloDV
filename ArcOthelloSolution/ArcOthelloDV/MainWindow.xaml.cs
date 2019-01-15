@@ -23,9 +23,7 @@ namespace ArcOthelloDV
 
         Ellipse[,] ellipses;
         OthelloBoard othelloBoard;
-
-        bool isOver = false;
-
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -68,7 +66,7 @@ namespace ArcOthelloDV
 
                         void r_MouseClick(object sender, MouseEventArgs e)
                         {
-                            if (!isOver)
+                            if (!othelloBoard.getIsOver())
                             {
                                 var element = (UIElement)e.Source;
 
@@ -82,19 +80,30 @@ namespace ArcOthelloDV
 
                                 if (othelloBoard.getIsOver())
                                 {
-                                    othelloBoard.StopClocks();
-                                    isOver = true;
+                                    String message = "Game finished, ";
                                     if (othelloBoard.GetWhiteScore() > othelloBoard.GetBlackScore())
                                     {
-                                        MessageBox.Show("Game finished, white player won !");
+                                        message += "white player won !";
                                     }
                                     else if (othelloBoard.GetWhiteScore() < othelloBoard.GetBlackScore())
                                     {
-                                        MessageBox.Show("Game finished, black player won !");
+                                        message += "black player won !";
                                     }
                                     else
                                     {
-                                        MessageBox.Show("Game finished, you are tied !");
+                                        message += "you are tied !";
+                                    }
+
+                                    if (MessageBox.Show(message + "\nDo you want to play again?",
+                                        "GAME OVER", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+                                    {
+                                        othelloBoard.NewGame();
+                                        updateBoardDisplay(othelloBoard.GetBoard());
+                                        updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
+                                    }
+                                    else
+                                    {
+                                        this.Close();
                                     }
                                 }
                             }
@@ -216,7 +225,11 @@ namespace ArcOthelloDV
 
         private void menuExit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (MessageBox.Show("Do you really want to quit?",
+                "Quit", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
         }
 
         private void menuNewGame_Click(object sender, RoutedEventArgs e)
@@ -256,6 +269,8 @@ namespace ArcOthelloDV
                 try
                 {
                     othelloBoard = (OthelloBoard)formatter.Deserialize(stream);
+
+                    stream.Close();
 
                     this.DataContext = othelloBoard;
 
