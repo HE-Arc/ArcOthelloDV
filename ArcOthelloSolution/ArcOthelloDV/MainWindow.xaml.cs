@@ -27,7 +27,7 @@ namespace ArcOthelloDV
         public MainWindow()
         {
             InitializeComponent();
-
+            
             othelloBoard = new OthelloBoard();
 
             this.DataContext = othelloBoard;
@@ -223,13 +223,20 @@ namespace ArcOthelloDV
             }
         }
 
-        private void menuExit_Click(object sender, RoutedEventArgs e)
+        protected override void OnClosing(System.ComponentModel.CancelEventArgs e)
         {
+            e.Cancel = true;
             if (MessageBox.Show("Do you really want to quit?",
                 "Quit", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
             {
-                this.Close();
+                e.Cancel = false;
             }
+            base.OnClosing(e);
+        }
+
+        private void menuExit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
         }
 
         private void menuNewGame_Click(object sender, RoutedEventArgs e)

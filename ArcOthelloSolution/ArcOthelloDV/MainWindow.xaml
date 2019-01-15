@@ -12,7 +12,7 @@
         >
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_File">
+            <MenuItem Header="_Menu">
                 <MenuItem Header="_New Game" Click="menuNewGame_Click"/>
                 <MenuItem Header="_Open Game" Click="menuOpen_Click"/>
                 <MenuItem Header="_Save Game" Click="menuSave_Click"/>
