@@ -7,22 +7,23 @@
         mc:Ignorable="d"
         Title="ArcOthelloDV" Width="1000"
         WindowStartupLocation="CenterScreen"
+        Background="DarkGreen"
         MinWidth="800"
         MinHeight="600"
         >
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="_Menu">
-                <MenuItem Header="_New Game" Click="menuNewGame_Click"/>
-                <MenuItem Header="_Open Game" Click="menuOpen_Click"/>
-                <MenuItem Header="_Save Game" Click="menuSave_Click"/>
+            <MenuItem Header="_Menu" Width="100" Height="40" FontSize="30" Cursor="Hand">
+                <MenuItem Header="_New Game" Click="menuNewGame_Click" Cursor="Hand"/>
+                <MenuItem Header="_Open Game" Click="menuOpen_Click" Cursor="Hand"/>
+                <MenuItem Header="_Save Game" Click="menuSave_Click" Cursor="Hand"/>
                 <Separator />
-                <MenuItem Header="_Exit" Click="menuExit_Click"/>
+                <MenuItem Header="_Exit" Click="menuExit_Click" Cursor="Hand"/>
             </MenuItem>
         </Menu>
-        <Border BorderThickness="0" 
-                Margin="10" 
-                Background="LightGoldenrodYellow" 
+        <Border BorderThickness="0"
+                Margin="10"
+                Background="LightGoldenrodYellow"
                 CornerRadius="100">
             <Grid
             Name="board"
