@@ -429,7 +429,7 @@ namespace ArcOthelloDV
                         {
                             droite = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if (checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
@@ -443,7 +443,7 @@ namespace ArcOthelloDV
                         {
                             droiteBas = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if (checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
@@ -457,7 +457,7 @@ namespace ArcOthelloDV
                         {
                             bas = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if (checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
@@ -471,7 +471,7 @@ namespace ArcOthelloDV
                         {
                             basGauche = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if (checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
@@ -485,7 +485,7 @@ namespace ArcOthelloDV
                         {
                             gauche = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if (checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
@@ -499,7 +499,7 @@ namespace ArcOthelloDV
                         {
                             gaucheHaut = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if (checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
@@ -513,7 +513,7 @@ namespace ArcOthelloDV
                         {
                             haut = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if (checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
@@ -527,10 +527,25 @@ namespace ArcOthelloDV
                         {
                             hautDroite = false;
                         }
-                        if (checkMove(isWhite, testColumn, testLine))
+                        else if(checkMove(isWhite, testColumn, testLine))
                         {
                             return true;
                         }
+                        /*
+                        else if (isWhite)
+                        {
+                            if (board[testColumn, testLine] == 0)
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if (board[testColumn, testLine] == 1)
+                            {
+                                return true;
+                            }
+                        }*/
                     }
                 }
             }
