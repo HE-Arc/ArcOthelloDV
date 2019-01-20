@@ -429,19 +429,9 @@ namespace ArcOthelloDV
                         {
                             droite = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
 
@@ -453,19 +443,9 @@ namespace ArcOthelloDV
                         {
                             droiteBas = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
 
@@ -477,19 +457,9 @@ namespace ArcOthelloDV
                         {
                             bas = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
 
@@ -501,19 +471,9 @@ namespace ArcOthelloDV
                         {
                             basGauche = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
 
@@ -525,19 +485,9 @@ namespace ArcOthelloDV
                         {
                             gauche = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
 
@@ -549,19 +499,9 @@ namespace ArcOthelloDV
                         {
                             gaucheHaut = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
 
@@ -573,19 +513,9 @@ namespace ArcOthelloDV
                         {
                             haut = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
 
@@ -597,24 +527,33 @@ namespace ArcOthelloDV
                         {
                             hautDroite = false;
                         }
-                        else if (isWhite)
+                        if (checkMove(isWhite, testColumn, testLine))
                         {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
+                            return true;
                         }
                     }
                 }
             }
 
+            return false;
+        }
+
+        public bool checkMove(bool isWhite, int testColumn, int testLine)
+        {
+            if (isWhite)
+            {
+                if (board[testColumn, testLine] == 0)
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (board[testColumn, testLine] == 1)
+                {
+                    return true;
+                }
+            }
             return false;
         }
 
