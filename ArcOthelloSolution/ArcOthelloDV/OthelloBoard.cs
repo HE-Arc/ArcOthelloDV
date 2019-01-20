@@ -531,21 +531,6 @@ namespace ArcOthelloDV
                         {
                             return true;
                         }
-                        /*
-                        else if (isWhite)
-                        {
-                            if (board[testColumn, testLine] == 0)
-                            {
-                                return true;
-                            }
-                        }
-                        else
-                        {
-                            if (board[testColumn, testLine] == 1)
-                            {
-                                return true;
-                            }
-                        }*/
                     }
                 }
             }
@@ -553,6 +538,13 @@ namespace ArcOthelloDV
             return false;
         }
 
+        /// <summary>
+        /// check if a cell validate a certain move (uses for move validation in isPlayable)
+        /// </summary>
+        /// <param name="isWhite"></param>
+        /// <param name="testColumn"></param>
+        /// <param name="testLine"></param>
+        /// <returns>return a boolean telling us if a cell validate a certain move or not</returns>
         public bool checkMove(bool isWhite, int testColumn, int testLine)
         {
             if (isWhite)
