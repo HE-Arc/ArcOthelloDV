@@ -193,7 +193,6 @@ namespace ArcOthelloDV
             OnPropertyChanged("BlackScore");
         }
 
-
         private void nextPlayer()
         {
             WhiteTurn = !WhiteTurn;
@@ -252,11 +251,19 @@ namespace ArcOthelloDV
             return board;
         }
 
+        /// <summary>
+        /// get the list of all the actual playable cells
+        /// </summary>
+        /// <returns>a list of of coordinate of all the playable cells</returns>
         public List<int> getPlayableCells()
         {
             return playableCells;
         }
 
+        /// <summary>
+        /// get the value of the isOver variable, telling us if the game is over or not
+        /// </summary>
+        /// <returns>a boolean telling if the game if over or not</returns>
         public bool getIsOver()
         {
             return isOver;
@@ -309,6 +316,13 @@ namespace ArcOthelloDV
             }
         }
 
+        /// <summary>
+        /// check if a cell is playable or not, just by checking if its column and row number are in the list of playable cells
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <param name="isWhite"></param>
+        /// <returns>return true if the cell is playable, false if it is not</returns>
         public bool IsPlayable(int column, int line, bool isWhite)
         {
             for (int i = 0; i < playableCells.Count; i+=2)
@@ -665,6 +679,12 @@ namespace ArcOthelloDV
             }
         }
 
+        /// <summary>
+        /// update the board (turn over pawns after a player's move)
+        /// </summary>
+        /// <param name="isWhite"></param>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
         public void updateBoard(bool isWhite, int column, int line)
         {
             updateDirection(isWhite, column, line, 1, 0);
@@ -677,6 +697,14 @@ namespace ArcOthelloDV
             updateDirection(isWhite, column, line, 1, -1);
         }
 
+        /// <summary>
+        /// update pawns after a player's move in a given direction
+        /// </summary>
+        /// <param name="isWhite"></param>
+        /// <param name="column"></param>
+        /// <param name="line"></param>
+        /// <param name="deltaColumn"></param>
+        /// <param name="deltaLine"></param>
         private void updateDirection(bool isWhite, int column, int line, int deltaColumn, int deltaLine)
         {
             int testColumn = column;
