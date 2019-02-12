@@ -18,6 +18,18 @@ namespace ArcOthelloDV
         private const int WHITE = 0;
         private const int BLACK = 1;
 
+        static int[,] weights = new int[9, 7] {
+            {10 ,-1 ,5 ,5 ,5 ,-1 ,10 },
+            {-1 ,1 ,1 ,1 ,1 ,1 ,-1  },
+            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
+            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
+            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
+            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
+            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
+            {-1 ,1 ,1 ,1 ,1 ,1 ,-1  },
+            {10 ,-1 ,5 ,5 ,5 ,-1 ,10 }
+        };
+
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -92,6 +104,9 @@ namespace ArcOthelloDV
         {
             this.WhiteTurn = whiteTurn;
             this.board = board.Clone() as int[,];
+
+            playableCells = new List<int>();
+            computePlayableCells(WhiteTurn);
         }
 
         /// <summary>
@@ -156,8 +171,11 @@ namespace ArcOthelloDV
         /// </summary>
         private void stopClocks()
         {
-            stopWatchWhite.Stop();
-            stopWatchBlack.Stop();
+            if (stopWatchBlack != null && stopWatchWhite != null)
+            {
+                stopWatchWhite.Stop();
+                stopWatchBlack.Stop();
+            }
         }
 
         /// <summary>
@@ -186,7 +204,7 @@ namespace ArcOthelloDV
             board[4, 4] = WHITE;
 
             playableCells = new List<int>();
-            computePlayableCells(true);
+            computePlayableCells(WhiteTurn);
 
             updateScore();
         }
@@ -205,15 +223,17 @@ namespace ArcOthelloDV
             WhiteTurn = !WhiteTurn;
             OnPropertyChanged("WhiteTurn");
 
-            if (WhiteTurn)
-            {
-                stopWatchBlack.Stop();
-                stopWatchWhite.Start();
-            }
-            else
-            {
-                stopWatchWhite.Stop();
-                stopWatchBlack.Start();
+            if (stopWatchBlack != null && stopWatchWhite != null) {
+                if (WhiteTurn)
+                {
+                    stopWatchBlack.Stop();
+                    stopWatchWhite.Start();
+                }
+                else
+                {
+                    stopWatchWhite.Stop();
+                    stopWatchBlack.Start();
+                }
             }
         }
 
@@ -274,7 +294,7 @@ namespace ArcOthelloDV
         /// <returns>the name of the IA</returns>
         public string GetName()
         {
-            return "ArcOthello Donzé-Vorpe";
+            return "ArcOthello Donzé-Vorpe-Graells";
         }
 
         /// <summary>
@@ -286,11 +306,10 @@ namespace ArcOthelloDV
         /// <returns>(col, row) of the next best move</returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
-
-
-
-
-            return new Tuple<int, int>(0, 0);
+            OthelloBoard board = new OthelloBoard(game, whiteTurn);
+            Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue);
+            
+            return alphabetaResult.Item2;
         }
 
         private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue)
@@ -303,6 +322,7 @@ namespace ArcOthelloDV
             int optVal = minOrMax * int.MinValue;
             Tuple<int, int> optOp = new Tuple<int, int>(-1, -1);
 
+            root.computePlayableCells(root.WhiteTurn);
             List<int> possibleMoves = root.getPlayableCells();
 
             for (int i = 0; i < possibleMoves.Count; i += 2)
@@ -314,22 +334,46 @@ namespace ArcOthelloDV
                 int val = valDummy.Item1;
                 Tuple<int, int> dummy = valDummy.Item2;
                 
-                //TODO
-
+                if (val * minOrMax > optVal * minOrMax)
+                {
+                    optVal = val;
+                    optOp = new Tuple<int, int>(possibleMoves[i], possibleMoves[i+1]);
+                    if (optVal * minOrMax > parentValue * minOrMax)
+                    {
+                        break;
+                    }
+                }
             }
 
-            return new Tuple<int, Tuple<int, int>>(0, new Tuple<int,int>(0,0));
+            return new Tuple<int, Tuple<int, int>>(optVal, optOp);
         }
-
-        internal class TreeNode
-        {
-
-        }
-
+        
+        /// <summary>
+        /// Fitness function for alphabeta
+        /// </summary>
+        /// <returns>the fitness of the current player</returns>
         private int eval()
         {
+            int color = 1;
+            if (WhiteTurn)
+            {
+                color = 0;
+            }
 
-            return 0;
+            int score = 0;
+
+            for (int x = 0; x < 9; x++)
+            {
+                for (int y = 0; y < 7; y++)
+                {
+                    if (board[x, y] == color)
+                    {
+                        score += weights[x,y];
+                    }
+                }
+            }
+
+            return score;
         }
 
         /// <summary>

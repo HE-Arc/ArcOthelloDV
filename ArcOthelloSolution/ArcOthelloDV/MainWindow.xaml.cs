@@ -78,6 +78,13 @@ namespace ArcOthelloDV
                                 updateBoardDisplay(othelloBoard.GetBoard());
                                 updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
 
+                                // bot's turn
+                                Tuple<int, int> nextMove = othelloBoard.GetNextMove(othelloBoard.GetBoard(), 5, othelloBoard.WhiteTurn);
+                                othelloBoard.PlayMove(nextMove.Item1, nextMove.Item2, othelloBoard.WhiteTurn);
+
+                                updateBoardDisplay(othelloBoard.GetBoard());
+                                updatePlayableCellsDisplay(othelloBoard.getPlayableCells());
+
                                 if (othelloBoard.getIsOver())
                                 {
                                     String message = "Game finished, ";
