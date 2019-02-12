@@ -19,15 +19,15 @@ namespace ArcOthelloDV
         private const int BLACK = 1;
 
         static int[,] weights = new int[9, 7] {
-            {10 ,-1 ,5 ,5 ,5 ,-1 ,10 },
-            {-1 ,1 ,1 ,1 ,1 ,1 ,-1  },
+            {100 ,5 ,5 ,5 ,5 ,5 ,100 },
+            {5 ,1 ,1 ,1 ,1 ,1 ,5  },
             {5  ,1 ,1 ,1 ,1 ,1 ,5  },
             {5  ,1 ,1 ,1 ,1 ,1 ,5  },
             {5  ,1 ,1 ,1 ,1 ,1 ,5  },
             {5  ,1 ,1 ,1 ,1 ,1 ,5  },
             {5  ,1 ,1 ,1 ,1 ,1 ,5  },
-            {-1 ,1 ,1 ,1 ,1 ,1 ,-1  },
-            {10 ,-1 ,5 ,5 ,5 ,-1 ,10 }
+            {5 ,1 ,1 ,1 ,1 ,1 ,5  },
+            {100 ,5 ,5 ,5 ,5 ,5 ,100 }
         };
 
         [field: NonSerialized]
@@ -294,7 +294,7 @@ namespace ArcOthelloDV
         /// <returns>the name of the IA</returns>
         public string GetName()
         {
-            return "ArcOthello Donzé-Vorpe-Graells";
+            return "IA-DVG";
         }
 
         /// <summary>
@@ -307,14 +307,14 @@ namespace ArcOthelloDV
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
             OthelloBoard board = new OthelloBoard(game, whiteTurn);
-            Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue);
+            Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue); // TODO ici je suis pas sûr des valeurs
             
             return alphabetaResult.Item2;
         }
 
         private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue)
         {
-            if(depth == 0 || root.getIsOver())
+            if(depth <= 0 || root.getIsOver())
             {
                 return new Tuple<int, Tuple<int, int>>(root.eval(), new Tuple<int, int>(-1, -1));
             }
@@ -324,7 +324,6 @@ namespace ArcOthelloDV
 
             root.computePlayableCells(root.WhiteTurn);
             List<int> possibleMoves = root.getPlayableCells();
-
             for (int i = 0; i < possibleMoves.Count; i += 2)
             {
                 OthelloBoard newBoard = new OthelloBoard(root.GetBoard(), root.WhiteTurn);
@@ -332,7 +331,7 @@ namespace ArcOthelloDV
 
                 Tuple<int, Tuple<int, int>> valDummy = alphabeta(newBoard, depth-1, -minOrMax, optVal);
                 int val = valDummy.Item1;
-                Tuple<int, int> dummy = valDummy.Item2;
+                //Tuple<int, int> dummy = valDummy.Item2;
                 
                 if (val * minOrMax > optVal * minOrMax)
                 {
