@@ -306,6 +306,8 @@ namespace ArcOthelloDV
         /// <returns>(col, row) of the next best move</returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
+            Console.WriteLine("------------------------------------------------");
+
             OthelloBoard board = new OthelloBoard(game, whiteTurn);
             Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue); // TODO ici je suis pas sûr des valeurs
             
@@ -332,7 +334,13 @@ namespace ArcOthelloDV
                 Tuple<int, Tuple<int, int>> valDummy = alphabeta(newBoard, depth-1, -minOrMax, optVal);
                 int val = valDummy.Item1;
                 //Tuple<int, int> dummy = valDummy.Item2;
-                
+
+                Console.WriteLine("------");
+                Console.WriteLine("coup : " + possibleMoves[i] + ", " + possibleMoves[i + 1]);
+                Console.WriteLine(minOrMax);
+                Console.WriteLine(val);
+                Console.WriteLine(optVal);
+
                 if (val * minOrMax > optVal * minOrMax)
                 {
                     optVal = val;
