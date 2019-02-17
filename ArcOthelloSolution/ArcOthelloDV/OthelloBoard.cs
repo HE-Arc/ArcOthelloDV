@@ -19,15 +19,15 @@ namespace ArcOthelloDV
         private const int BLACK = 1;
 
         static int[,] weights = new int[9, 7] {
-            {100 ,5 ,5 ,5 ,5 ,5 ,100 },
-            {5 ,1 ,1 ,1 ,1 ,1 ,5  },
-            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
-            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
-            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
-            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
-            {5  ,1 ,1 ,1 ,1 ,1 ,5  },
-            {5 ,1 ,1 ,1 ,1 ,1 ,5  },
-            {100 ,5 ,5 ,5 ,5 ,5 ,100 }
+            {20 ,-5 ,4 ,3 ,4 ,-5 ,20 },
+            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
+            {4  ,1 ,2 ,2 ,2 ,1 ,4  },
+            {3  ,1 ,2 ,3 ,2 ,1 ,3  },
+            {3  ,1 ,2 ,3 ,2 ,1 ,3  },
+            {3  ,1 ,2 ,3 ,2 ,1 ,3  },
+            {4  ,1 ,2 ,2 ,2 ,1 ,4  },
+            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
+            {20 ,-5 ,4 ,3 ,4 ,-5 ,20 }
         };
 
         [field: NonSerialized]
@@ -328,6 +328,8 @@ namespace ArcOthelloDV
             List<int> possibleMoves = root.getPlayableCells();
             for (int i = 0; i < possibleMoves.Count; i += 2)
             {
+                Console.WriteLine("------");
+
                 OthelloBoard newBoard = new OthelloBoard(root.GetBoard(), root.WhiteTurn);
                 newBoard.PlayMove(possibleMoves[i], possibleMoves[i+1], newBoard.WhiteTurn);
 
@@ -335,7 +337,6 @@ namespace ArcOthelloDV
                 int val = valDummy.Item1;
                 //Tuple<int, int> dummy = valDummy.Item2;
 
-                Console.WriteLine("------");
                 Console.WriteLine("coup : " + possibleMoves[i] + ", " + possibleMoves[i + 1]);
                 Console.WriteLine(minOrMax);
                 Console.WriteLine(val);
@@ -360,9 +361,10 @@ namespace ArcOthelloDV
         /// </summary>
         /// <returns>the fitness of the current player</returns>
         private int eval()
-        {
+        {   
             int color = 1;
-            if (WhiteTurn)
+            // on veut eval celui qui vient de jouer, donc si whiteTurn est true on eval noir donc color = 1 et inversement
+            if (!WhiteTurn)
             {
                 color = 0;
             }
