@@ -328,7 +328,7 @@ namespace ArcOthelloDV
             List<int> possibleMoves = root.getPlayableCells();
             for (int i = 0; i < possibleMoves.Count; i += 2)
             {
-                Console.WriteLine("------");
+                //Console.WriteLine("------");
 
                 OthelloBoard newBoard = new OthelloBoard(root.GetBoard(), root.WhiteTurn);
                 newBoard.PlayMove(possibleMoves[i], possibleMoves[i+1], newBoard.WhiteTurn);
@@ -337,19 +337,19 @@ namespace ArcOthelloDV
                 int val = valDummy.Item1;
                 //Tuple<int, int> dummy = valDummy.Item2;
 
-                Console.WriteLine("coup : " + possibleMoves[i] + ", " + possibleMoves[i + 1]);
-                Console.WriteLine(minOrMax);
-                Console.WriteLine(val);
-                Console.WriteLine(optVal);
+                //Console.WriteLine("coup : " + possibleMoves[i] + ", " + possibleMoves[i + 1]);
+                //Console.WriteLine(minOrMax);
+                //Console.WriteLine(val);
+                //Console.WriteLine(optVal);
 
                 if (val * minOrMax > optVal * minOrMax)
                 {
                     optVal = val;
                     optOp = new Tuple<int, int>(possibleMoves[i], possibleMoves[i+1]);
-                    if (optVal * minOrMax > parentValue * minOrMax)
+                    /*if (optVal * minOrMax > parentValue * minOrMax)
                     {
                         break;
-                    }
+                    }*/
                 }
             }
 
