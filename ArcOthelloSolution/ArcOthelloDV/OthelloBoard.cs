@@ -310,7 +310,7 @@ namespace ArcOthelloDV
 
             OthelloBoard board = new OthelloBoard(game, whiteTurn);
             int iaColor = whiteTurn ? WHITE : BLACK;
-            Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue, iaColor); // TODO ici je suis pas sûr des valeurs
+            Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue, iaColor);
             
             return alphabetaResult.Item2;
         }
