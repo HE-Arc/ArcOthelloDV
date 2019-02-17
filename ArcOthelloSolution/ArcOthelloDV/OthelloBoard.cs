@@ -18,7 +18,7 @@ namespace ArcOthelloDV
         private const int WHITE = 0;
         private const int BLACK = 1;
 
-        static int[,] weights = new int[9, 7] {
+        /*static int[,] weights = new int[9, 7] {
             {20 ,-5 ,4 ,3 ,4 ,-5 ,20 },
             {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
             {4  ,1 ,2 ,2 ,2 ,1 ,4  },
@@ -28,6 +28,18 @@ namespace ArcOthelloDV
             {4  ,1 ,2 ,2 ,2 ,1 ,4  },
             {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
             {20 ,-5 ,4 ,3 ,4 ,-5 ,20 }
+        };*/
+
+        static int[,] weights = new int[9, 7] {
+            {100 ,5 ,14 ,13 ,14 ,5 ,100 },
+            {5  ,0 ,11 ,11 ,11 ,0 ,5  },
+            {14  ,11 ,12 ,12 ,12 ,11 ,14  },
+            {13  ,11 ,12 ,13 ,12 ,11 ,13  },
+            {13  ,11 ,12 ,13 ,12 ,11 ,13  },
+            {13  ,11 ,12 ,13 ,12 ,11 ,13  },
+            {14  ,11 ,12 ,12 ,12 ,11 ,14  },
+            {5  ,0 ,11 ,11 ,11 ,0 ,5  },
+            {100 ,5 ,14 ,13 ,14 ,5 ,100 }
         };
 
         [field: NonSerialized]
@@ -306,22 +318,23 @@ namespace ArcOthelloDV
         /// <returns>(col, row) of the next best move</returns>
         public Tuple<int, int> GetNextMove(int[,] game, int level, bool whiteTurn)
         {
-            Console.WriteLine("------------------------------------------------");
+            //Console.WriteLine("------------------------------------------------");
 
             OthelloBoard board = new OthelloBoard(game, whiteTurn);
-            Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue); // TODO ici je suis pas sûr des valeurs
+            int iaColor = whiteTurn ? WHITE : BLACK;
+            Tuple<int, Tuple<int, int>> alphabetaResult = alphabeta(board, level, 1, int.MaxValue, iaColor); // TODO ici je suis pas sûr des valeurs
             
             return alphabetaResult.Item2;
         }
 
-        private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue)
+        private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue, int iaColor)
         {
             if(depth <= 0 || root.getIsOver())
             {
-                return new Tuple<int, Tuple<int, int>>(root.eval(), new Tuple<int, int>(-1, -1));
+                return new Tuple<int, Tuple<int, int>>(root.eval(iaColor), new Tuple<int, int>(-1, -1));
             }
 
-            int optVal = minOrMax * int.MinValue;
+            int optVal = minOrMax * int.MinValue; // infini
             Tuple<int, int> optOp = new Tuple<int, int>(-1, -1);
 
             root.computePlayableCells(root.WhiteTurn);
@@ -333,8 +346,8 @@ namespace ArcOthelloDV
                 OthelloBoard newBoard = new OthelloBoard(root.GetBoard(), root.WhiteTurn);
                 newBoard.PlayMove(possibleMoves[i], possibleMoves[i+1], newBoard.WhiteTurn);
 
-                Tuple<int, Tuple<int, int>> valDummy = alphabeta(newBoard, depth-1, -minOrMax, optVal);
-                int val = valDummy.Item1;
+                Tuple<int, Tuple<int, int>> valDummy = alphabeta(newBoard, depth-1, -minOrMax, optVal, iaColor);
+                int val = valDummy.Item1; // 5
                 //Tuple<int, int> dummy = valDummy.Item2;
 
                 //Console.WriteLine("coup : " + possibleMoves[i] + ", " + possibleMoves[i + 1]);
@@ -342,14 +355,14 @@ namespace ArcOthelloDV
                 //Console.WriteLine(val);
                 //Console.WriteLine(optVal);
 
-                if (val * minOrMax > optVal * minOrMax)
+                if (val * minOrMax > optVal * minOrMax) // -5 > -infini ok, 
                 {
-                    optVal = val;
+                    optVal = val; // optval = 5, 
                     optOp = new Tuple<int, int>(possibleMoves[i], possibleMoves[i+1]);
-                    /*if (optVal * minOrMax > parentValue * minOrMax)
+                    if (optVal * minOrMax > parentValue * minOrMax)
                     {
                         break;
-                    }*/
+                    }
                 }
             }
 
@@ -360,22 +373,15 @@ namespace ArcOthelloDV
         /// Fitness function for alphabeta
         /// </summary>
         /// <returns>the fitness of the current player</returns>
-        private int eval()
+        private int eval(int iaColor)
         {   
-            int color = 1;
-            // on veut eval celui qui vient de jouer, donc si whiteTurn est true on eval noir donc color = 1 et inversement
-            if (!WhiteTurn)
-            {
-                color = 0;
-            }
-
             int score = 0;
 
             for (int x = 0; x < 9; x++)
             {
                 for (int y = 0; y < 7; y++)
                 {
-                    if (board[x, y] == color)
+                    if (board[x, y] == iaColor)
                     {
                         score += weights[x,y];
                     }
