@@ -18,19 +18,19 @@ namespace ArcOthelloDV
         private const int WHITE = 0;
         private const int BLACK = 1;
 
-        /*static int[,] weights = new int[9, 7] {
-            {20 ,-5 ,4 ,3 ,4 ,-5 ,20 },
-            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
-            {4  ,1 ,2 ,2 ,2 ,1 ,4  },
-            {3  ,1 ,2 ,3 ,2 ,1 ,3  },
-            {3  ,1 ,2 ,3 ,2 ,1 ,3  },
-            {3  ,1 ,2 ,3 ,2 ,1 ,3  },
-            {4  ,1 ,2 ,2 ,2 ,1 ,4  },
-            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
-            {20 ,-5 ,4 ,3 ,4 ,-5 ,20 }
-        };*/
-
         static int[,] weights = new int[9, 7] {
+            {30 ,-5 ,4 ,3 ,4 ,-5 ,30 },
+            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
+            {4  ,1 ,3 ,3 ,3 ,1 ,4  },
+            {3  ,1 ,3 ,5 ,3 ,1 ,3  },
+            {3  ,1 ,3 ,5 ,3 ,1 ,3  },
+            {3  ,1 ,3 ,5 ,3 ,1 ,3  },
+            {4  ,1 ,3 ,3 ,3 ,1 ,4  },
+            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
+            {30 ,-5 ,4 ,3 ,4 ,-5 ,30 }
+        };
+
+        /*static int[,] weights = new int[9, 7] {
             {100 ,5 ,14 ,13 ,14 ,5 ,100 },
             {5  ,0 ,11 ,11 ,11 ,0 ,5  },
             {14  ,11 ,12 ,12 ,12 ,11 ,14  },
@@ -40,7 +40,7 @@ namespace ArcOthelloDV
             {14  ,11 ,12 ,12 ,12 ,11 ,14  },
             {5  ,0 ,11 ,11 ,11 ,0 ,5  },
             {100 ,5 ,14 ,13 ,14 ,5 ,100 }
-        };
+        };*/
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -327,14 +327,14 @@ namespace ArcOthelloDV
             return alphabetaResult.Item2;
         }
 
-        private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue, int iaColor)
+        private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue, int iaColor) // parent value = 10, minmax = -1 // -5, 1
         {
             if(depth <= 0 || root.getIsOver())
             {
                 return new Tuple<int, Tuple<int, int>>(root.eval(iaColor), new Tuple<int, int>(-1, -1));
             }
 
-            int optVal = minOrMax * int.MinValue; // infini
+            int optVal = minOrMax * int.MinValue; // infini // - infini
             Tuple<int, int> optOp = new Tuple<int, int>(-1, -1);
 
             root.computePlayableCells(root.WhiteTurn);
@@ -347,7 +347,7 @@ namespace ArcOthelloDV
                 newBoard.PlayMove(possibleMoves[i], possibleMoves[i+1], newBoard.WhiteTurn);
 
                 Tuple<int, Tuple<int, int>> valDummy = alphabeta(newBoard, depth-1, -minOrMax, optVal, iaColor);
-                int val = valDummy.Item1; // 5
+                int val = valDummy.Item1; // -5 // 4
                 //Tuple<int, int> dummy = valDummy.Item2;
 
                 //Console.WriteLine("coup : " + possibleMoves[i] + ", " + possibleMoves[i + 1]);
@@ -355,14 +355,14 @@ namespace ArcOthelloDV
                 //Console.WriteLine(val);
                 //Console.WriteLine(optVal);
 
-                if (val * minOrMax > optVal * minOrMax) // -5 > -infini ok, 
+                if (val * minOrMax > optVal * minOrMax) // 5 > -infini : ok // 4 > - infini : ok
                 {
-                    optVal = val; // optval = 5, 
+                    optVal = val; // optval = -5 // 4 
                     optOp = new Tuple<int, int>(possibleMoves[i], possibleMoves[i+1]);
-                    if (optVal * minOrMax > parentValue * minOrMax)
+                    /*if (optVal * minOrMax > parentValue * minOrMax) // 5 > -10 : ok // 4 > -5 : ok
                     {
                         break;
-                    }
+                    }*/
                 }
             }
 
@@ -373,9 +373,10 @@ namespace ArcOthelloDV
         /// Fitness function for alphabeta
         /// </summary>
         /// <returns>the fitness of the current player</returns>
-        private int eval(int iaColor)
+        public int eval(int iaColor)
         {   
-            int score = 0;
+            int iaScore = 0;
+            int otherScore = 0;
 
             for (int x = 0; x < 9; x++)
             {
@@ -383,12 +384,16 @@ namespace ArcOthelloDV
                 {
                     if (board[x, y] == iaColor)
                     {
-                        score += weights[x,y];
+                        iaScore += weights[x,y];
+                    }
+                    else if (board[x, y] != EMPTY)
+                    {
+                        otherScore += weights[x, y];
                     }
                 }
             }
 
-            return score;
+            return iaScore - otherScore;
         }
 
         /// <summary>
