@@ -81,7 +81,7 @@ namespace ArcOthelloDV
                                 // bot's turn if black's playing
                                 if (!othelloBoard.WhiteTurn)
                                 {
-                                    Tuple<int, int> nextMove = othelloBoard.GetNextMove(othelloBoard.GetBoard(), 1, othelloBoard.WhiteTurn);
+                                    Tuple<int, int> nextMove = othelloBoard.GetNextMove(othelloBoard.GetBoard(), 5, othelloBoard.WhiteTurn);
                                     othelloBoard.PlayMove(nextMove.Item1, nextMove.Item2, othelloBoard.WhiteTurn);
                                     updateBoardDisplay(othelloBoard.GetBoard());
                                     updatePlayableCellsDisplay(othelloBoard.getPlayableCells());

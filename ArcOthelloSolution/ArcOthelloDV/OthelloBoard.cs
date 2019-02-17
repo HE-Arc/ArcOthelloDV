@@ -19,28 +19,16 @@ namespace ArcOthelloDV
         private const int BLACK = 1;
 
         static int[,] weights = new int[9, 7] {
-            {30 ,-5 ,4 ,3 ,4 ,-5 ,30 },
-            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
-            {4  ,1 ,3 ,3 ,3 ,1 ,4  },
-            {3  ,1 ,3 ,5 ,3 ,1 ,3  },
-            {3  ,1 ,3 ,5 ,3 ,1 ,3  },
-            {3  ,1 ,3 ,5 ,3 ,1 ,3  },
-            {4  ,1 ,3 ,3 ,3 ,1 ,4  },
-            {-5  ,-10 ,1 ,1 ,1 ,-10 ,-5  },
-            {30 ,-5 ,4 ,3 ,4 ,-5 ,30 }
+            {100 ,-10 ,5 ,1 ,5 ,-10 ,100 },
+            {-10  ,-20 ,0 ,0 ,0 ,-20 ,-10  },
+            {5  ,0 ,5 ,5 ,5 ,0 ,5  },
+            {1  ,0 ,5 ,10 ,5 ,0 ,1  },
+            {1  ,0 ,5 ,10 ,5 ,0 ,1  },
+            {1  ,0 ,5 ,10 ,5 ,0 ,1  },
+            {5  ,0 ,5 ,5 ,5 ,0 ,5  },
+            {-10  ,-20 ,0 ,0 ,0 ,-20 ,-10  },
+            {100 ,-10 ,5 ,1 ,5 ,-10 ,100 }
         };
-
-        /*static int[,] weights = new int[9, 7] {
-            {100 ,5 ,14 ,13 ,14 ,5 ,100 },
-            {5  ,0 ,11 ,11 ,11 ,0 ,5  },
-            {14  ,11 ,12 ,12 ,12 ,11 ,14  },
-            {13  ,11 ,12 ,13 ,12 ,11 ,13  },
-            {13  ,11 ,12 ,13 ,12 ,11 ,13  },
-            {13  ,11 ,12 ,13 ,12 ,11 ,13  },
-            {14  ,11 ,12 ,12 ,12 ,11 ,14  },
-            {5  ,0 ,11 ,11 ,11 ,0 ,5  },
-            {100 ,5 ,14 ,13 ,14 ,5 ,100 }
-        };*/
 
         [field: NonSerialized]
         public event PropertyChangedEventHandler PropertyChanged;
@@ -327,14 +315,14 @@ namespace ArcOthelloDV
             return alphabetaResult.Item2;
         }
 
-        private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue, int iaColor) // parent value = 10, minmax = -1 // -5, 1
+        private Tuple<int, Tuple<int, int>> alphabeta(OthelloBoard root, int depth, int minOrMax, int parentValue, int iaColor)
         {
             if(depth <= 0 || root.getIsOver())
             {
                 return new Tuple<int, Tuple<int, int>>(root.eval(iaColor), new Tuple<int, int>(-1, -1));
             }
 
-            int optVal = minOrMax * int.MinValue; // infini // - infini
+            int optVal = minOrMax * int.MinValue;
             Tuple<int, int> optOp = new Tuple<int, int>(-1, -1);
 
             root.computePlayableCells(root.WhiteTurn);
@@ -347,19 +335,17 @@ namespace ArcOthelloDV
                 newBoard.PlayMove(possibleMoves[i], possibleMoves[i+1], newBoard.WhiteTurn);
 
                 Tuple<int, Tuple<int, int>> valDummy = alphabeta(newBoard, depth-1, -minOrMax, optVal, iaColor);
-                int val = valDummy.Item1; // -5 // 4
+                int val = valDummy.Item1;
                 //Tuple<int, int> dummy = valDummy.Item2;
 
-                //Console.WriteLine("coup : " + possibleMoves[i] + ", " + possibleMoves[i + 1]);
-                //Console.WriteLine(minOrMax);
-                //Console.WriteLine(val);
-                //Console.WriteLine(optVal);
-
-                if (val * minOrMax > optVal * minOrMax) // 5 > -infini : ok // 4 > - infini : ok
+                if (val * minOrMax > optVal * minOrMax)
                 {
-                    optVal = val; // optval = -5 // 4 
+                    optVal = val;
                     optOp = new Tuple<int, int>(possibleMoves[i], possibleMoves[i+1]);
-                    /*if (optVal * minOrMax > parentValue * minOrMax) // 5 > -10 : ok // 4 > -5 : ok
+                    // Nous ne savons pas pourquoi, mais l'implémentation des coupures baisse le niveau de notre ia, alors que cela devrait uniquement affecté la vitesse. 
+                    // Nous avons passer ENORMEMENT de temps à essayer de réseoudre ce problème mais nous n'avons rien trouvé.
+                    // Nous les avons donc commenté pour que notre ia soit plus forte.
+                    /*if (optVal * minOrMax > parentValue * minOrMax)
                     {
                         break;
                     }*/
@@ -372,7 +358,7 @@ namespace ArcOthelloDV
         /// <summary>
         /// Fitness function for alphabeta
         /// </summary>
-        /// <returns>the fitness of the current player</returns>
+        /// <returns>the fitness of the ai player</returns>
         public int eval(int iaColor)
         {   
             int iaScore = 0;
